@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Карта</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+
+    <!-- UIkit CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="js/index.js"></script>
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
+    <!-- Leaflet's -->
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <div id="search_box">
+      <div>
+        <input
+          v-model="searchQuery"
+          type="search"
+          list="adressSugestion"
+          name=""
+          id=""
+          @input="suggestAdress"
+          @change="searchCoords"
+        />
+      </div>
+      <ul class="search_result_container uk-card uk-card-hover" uk-tab>
+        <span
+          v-if="Object.entries(searchResult).length === 0"
+          class="uk-text-meta"
+          >Нажмите на любой объект, чтобы получить информацию о нем</span
+        >
+        <div style="width:100%" v-else>
+          <ul
+            class="uk-subnav uk-subnav-pill"
+            uk-switcher="animation: uk-animation-slide-right-medium"
+          >
+            <li><a href="#">Помещение</a></li>
+            <li><a href="#">Земельный участок</a></li>
+          </ul>
+          <ul class="uk-switcher uk-margin">
+            <li>
+              <div v-if="loading" uk-spinner></div>
+              <div class="house_info" v-else>
+                <span class="uk-text-lead title"
+                  >{{searchResult[5].address}}</span
+                >
+                <span v-for="(res,index) in searchResult[5]">
+                  {{index}}:{{res}}
+                </span>
+              </div>
+            </li>
+            <li>
+              <div v-if="loading" uk-spinner></div>
+              <div class="house_info" v-else>
+                <span class="uk-text-lead title"
+                  >{{searchResult[1].address}}</span
+                >
+                <span v-for="(res,index) in searchResult[1]">
+                  {{index}}:{{res}}
+                </span>
+              </div>
+            </li>
+            <li>Bazinga!</li>
+          </ul>
+        </div>
+      </ul>
+      <datalist id="adressSugestion">
+        <option v-for="(adress,index) in adressSugestions" :value="adress.value"
+          >{{adress.value}}</option
+        >
+      </datalist>
+    </div>
+    <div id="map"></div>
+  </body>
+</html>

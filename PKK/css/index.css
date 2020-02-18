@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+}
+
+#mapid {
+  height: 100vh;
+}
+
+.search_box {
+  -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 2px 2px rgba(0, 0, 0, 0.22);
+  border-radius: 5px;
+  height: 50vh;
+  width: 500px;
+  top: 10px;
+  left: 50px;
+  padding: 10px;
+  background: #fff;
+  position: absolute;
+  z-index: 999;
+}
+
+.search_box input {
+  width: 100%;
+}
+/*# sourceMappingURL=index.css.map */

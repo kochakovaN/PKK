@@ -1,41 +1,185 @@
 body {
-    margin: 0
+  margin: 0;
 }
 
 #map {
-    width: 100%;
-    height: 100vh;
+  width: 100%;
+  height: 100vh;
+}
+
+.menu {
+  a {
+    display: flex !important;
+    align-items: center;
+
+    i {
+      margin-right: 10px;
+    }
+  }
+}
+
+.info-item {
+
+  display: flex;
+
+  flex-direction: row;
+  border-bottom: 1px dashed #ddd;
+
+  .key {
+    color: black;
+    width: 150px;
+  }
+
+  .value {
+    padding-left: 10px;
+    flex: 1
+  }
+}
+
+.button {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #search_box {
 
+  .egrnButton {
+    color: white;
+    background-color: orange;
+    border: 1px solid rgb(255, 137, 0);
+    text-decoration: none;
+    padding: 8px 16px;
+    width: fit-content;
+    margin-top: 15px;
+  }
 
-    input {
-        padding: 8px 0;
-        width: 100%;
+  #suggestionWrapper {
+    max-height: 60vh;
+    overflow: auto;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+
+    span {
+
+      padding: 4px 8px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #f1f1f1;
+      }
+    }
+  }
+
+  .menu {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    padding: 0;
+    padding: 0px 32px;
+
+    li:first-child {
+      border-right: 1px solid #eeeff1;
     }
 
-    .search_result_container {
-        margin-left: 0;
-        max-height: 600px;
-        overflow: auto;
-        overflow-x: hidden;
-        padding: 16px 32px;
-        background: white;
+
+
+    li {
+
+      flex: 1;
+      justify-content: center;
+
+      a {
+        padding: 4px 8px;
+        color: #929398;
+        text-decoration: none;
+        border-bottom: 1px solid #eeeff1;
+
+        &:hover {
+          color: #295477;
+        }
+
+      }
+
+      a[aria-expanded="true"] {
+        border-bottom: none;
+        //box-shadow: inset 0px 2px 5px 2px #f1f1f1;
+        color: #295477;
+      }
+    }
+  }
+
+  .info-box {
+    max-height: 60vh;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 0px;
+    padding: 16px 32px;
+  }
+
+  .message-box {
+    i {
+      margin-right: 10px;
     }
 
-    position: absolute;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .title {}
 
-    .house_info {
-        display: flex;
-        flex-direction: column;
+  input {
+    padding: 8px 16px;
+    width: 100%;
+  }
+
+  .search_result_container {
+    .closeButton {
+      flex: 1;
+
+      display: flex;
+      justify-content: flex-end;
+
+      span {
+        padding: 5px;
+        cursor: pointer;
+      }
     }
 
-    width: 500px;
+    margin-left: 0;
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    overflow-x: hidden;
 
-    z-index: 999;
-    top: 20px;
-    left: 70px;
+    background: white;
+  }
+
+  position: absolute;
+
+  .title {}
+
+  .house_info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  width: 500px;
+  z-index: 999;
+  top: 20px;
+  left: 10px;
 }

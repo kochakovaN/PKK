@@ -7,26 +7,197 @@ body {
   height: 100vh;
 }
 
+.menu a {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.menu a i {
+  margin-right: 10px;
+}
+
+.info-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  border-bottom: 1px dashed #ddd;
+}
+
+.info-item .key {
+  color: black;
+  width: 150px;
+}
+
+.info-item .value {
+  padding-left: 10px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.button {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 #search_box {
   position: absolute;
   width: 500px;
   z-index: 999;
   top: 20px;
-  left: 70px;
+  left: 10px;
+}
+
+#search_box .egrnButton {
+  color: white;
+  background-color: orange;
+  border: 1px solid #ff8900;
+  text-decoration: none;
+  padding: 8px 16px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 15px;
+}
+
+#search_box #suggestionWrapper {
+  max-height: 60vh;
+  overflow: auto;
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+#search_box #suggestionWrapper span {
+  padding: 4px 8px;
+}
+
+#search_box #suggestionWrapper span:hover {
+  cursor: pointer;
+  background-color: #f1f1f1;
+}
+
+#search_box .menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style: none;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 0;
+  padding: 0px 32px;
+}
+
+#search_box .menu li:first-child {
+  border-right: 1px solid #eeeff1;
+}
+
+#search_box .menu li {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#search_box .menu li a {
+  padding: 4px 8px;
+  color: #929398;
+  text-decoration: none;
+  border-bottom: 1px solid #eeeff1;
+}
+
+#search_box .menu li a:hover {
+  color: #295477;
+}
+
+#search_box .menu li a[aria-expanded="true"] {
+  border-bottom: none;
+  color: #295477;
+}
+
+#search_box .info-box {
+  max-height: 60vh;
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 0px;
+  padding: 16px 32px;
+}
+
+#search_box .message-box {
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#search_box .message-box i {
+  margin-right: 10px;
 }
 
 #search_box input {
-  padding: 8px 0;
+  padding: 8px 16px;
   width: 100%;
 }
 
 #search_box .search_result_container {
   margin-left: 0;
-  max-height: 600px;
-  overflow: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 5px;
+  overflow: hidden;
   overflow-x: hidden;
-  padding: 16px 32px;
   background: white;
+}
+
+#search_box .search_result_container .closeButton {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+#search_box .search_result_container .closeButton span {
+  padding: 5px;
+  cursor: pointer;
 }
 
 #search_box .house_info {

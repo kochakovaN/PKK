@@ -11,6 +11,10 @@
       integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
       crossorigin=""
     />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
 
     <!-- UIkit CSS -->
     <link
@@ -30,65 +34,151 @@
       crossorigin=""
     ></script>
   </head>
+
   <body>
     <div id="search_box">
       <div>
         <input
+          placeholder="Введите адрес или кадастровый номер"
           v-model="searchQuery"
           type="search"
-          list="adressSugestion"
           name=""
-          id=""
+          id="searchInput"
           @input="suggestAdress"
-          @change="searchCoords"
+          @change="inputChanged"
         />
+        <div v-show="shouldShowSuggestWrapper" id="suggestionWrapper">
+          <span
+            class="suggestionItem"
+            v-for="(adress,index) in adressSugestions"
+            v-on:click="(e) =>{searchQuery=adress.value;inputChanged(e,true)}"
+            :value="adress.value"
+            >{{adress.value}}</span
+          >
+        </div>
       </div>
-      <ul class="search_result_container uk-card uk-card-hover" uk-tab>
+      <ul
+        v-show="openSearchBox"
+        class="search_result_container uk-card uk-card-hover"
+        uk-tab
+      >
+        <div class="closeButton">
+          <span v-on:click="searchResult = []"
+            ><i class="material-icons">close</i></span
+          >
+        </div>
         <span
           v-if="Object.entries(searchResult).length === 0"
-          class="uk-text-meta"
-          >Нажмите на любой объект, чтобы получить информацию о нем</span
+          class="uk-text-meta message-box"
         >
-        <div style="width:100%" v-else>
+          <i class="material-icons">
+            info
+          </i>
+          Нажмите на любой объект, чтобы получить информацию о нем</span
+        >
+        <div style="width:100%;padding-left:0;" v-else>
           <ul
-            class="uk-subnav uk-subnav-pill"
-            uk-switcher="animation: uk-animation-slide-right-medium"
+            class="menu"
+            uk-switcher="animation: uk-animation-slide-right-small"
           >
-            <li><a href="#">Помещение</a></li>
-            <li><a href="#">Земельный участок</a></li>
+            <li v-if="searchResult[5].address !== undefined">
+              <a href="#"
+                ><i class="material-icons">home</i><span>Помещение</span></a
+              >
+            </li>
+            <li v-if="searchResult[1].address !== undefined">
+              <a href="#"
+                ><i class="material-icons"> landscape </i
+                ><span>Земельный участок</span></a
+              >
+            </li>
           </ul>
-          <ul class="uk-switcher uk-margin">
-            <li>
+          <ul class="uk-switcher uk-margin info-box">
+            <li v-if="searchResult[5].address !== undefined">
               <div v-if="loading" uk-spinner></div>
               <div class="house_info" v-else>
-                <span class="uk-text-lead title"
-                  >{{searchResult[5].address}}</span
+                <div
+                  v-for="(res,key) in  searchResult[5]"
+                  v-if="res !== null && key !=
+                'cad_eng_data' && key != 'elements_constuct' && objectAttributes[key] !== undefined"
+                  class="info-item"
                 >
-                <span v-for="(res,index) in searchResult[5]">
-                  {{index}}:{{res}}
-                </span>
+                  <span class="key">
+                    {{objectAttributes[key] !== undefined ?
+                    objectAttributes[key] : building_type[key] !== undefined ?
+                    building_type[key] : key}}
+                  </span>
+                  <span class="value">{{res}}</span>
+                </div>
+                <div
+                  v-if="searchResult[5].cad_eng_data !== undefined,null"
+                  class="info-item"
+                >
+                  <span class="key">
+                    Кадастровый инженер
+                  </span>
+                  <span>
+                    {{searchResult[5].cad_eng_data.ci_surname}}
+                    {{searchResult[5].cad_eng_data.ci_first}}
+                    {{searchResult[5].cad_eng_data.ci_patronymic}}</span
+                  >
+                </div>
+                <div
+                  v-if="searchResult[5].elements_constuct !== undefined"
+                  class="info-item"
+                >
+                  <span class="key">Материал стен</span>
+                  <span class="value"
+                    >{{searchResult[5].elements_constuct[0].wall}}</span
+                  >
+                </div>
+                <a
+                  class="button egrnButton"
+                  target="_blank"
+                  :href="'https://ruegrn.info/egrn?query='+searchResult[5].cn"
+                  >Получить выписку</a
+                >
               </div>
             </li>
-            <li>
-              <div v-if="loading" uk-spinner></div>
-              <div class="house_info" v-else>
-                <span class="uk-text-lead title"
-                  >{{searchResult[1].address}}</span
-                >
-                <span v-for="(res,index) in searchResult[1]">
-                  {{index}}:{{res}}
+            <li v-if="searchResult[1].address !== undefined">
+              <div
+                v-for="(res,key) in  searchResult[1]"
+                v-if="res !== null && key !=
+        'cad_eng_data' && key != 'elements_constuct' && objectAttributes[key] !== undefined"
+                class="info-item"
+              >
+                <span class="key">
+                  {{objectAttributes[key] !== undefined ? objectAttributes[key]
+                  : ''}}
                 </span>
+                <span class="value">{{res}}</span>
+              </div>
+              <div
+                v-if="searchResult[5].cad_eng_data !== undefined,null"
+                class="info-item"
+              >
+                <span class="key">
+                  Кадастровый инженер
+                </span>
+                <span class="value">
+                  {{searchResult[1].cad_eng_data.ci_surname}}
+                  {{searchResult[1].cad_eng_data.ci_first}}
+                  {{searchResult[1].cad_eng_data.ci_patronymic}}</span
+                >
+              </div>
+              <div
+                v-if="searchResult[1].elements_constuct !== undefined"
+                class="info-item"
+              >
+                <span class="key">Материал стен</span>
+                <span class="value"
+                  >{{searchResult[1].elements_constuct[0].wall}}</span
+                >
               </div>
             </li>
-            <li>Bazinga!</li>
           </ul>
         </div>
       </ul>
-      <datalist id="adressSugestion">
-        <option v-for="(adress,index) in adressSugestions" :value="adress.value"
-          >{{adress.value}}</option
-        >
-      </datalist>
     </div>
     <div id="map"></div>
   </body>

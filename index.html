@@ -63,7 +63,7 @@
         uk-tab
       >
         <div class="closeButton">
-          <span v-on:click="searchResult = []"
+          <span v-on:click="searchResult = [];searchQuery=''"
             ><i class="material-icons">close</i></span
           >
         </div>
@@ -81,24 +81,27 @@
             class="menu"
             uk-switcher="animation: uk-animation-slide-right-small"
           >
-            <li v-if="searchResult[5].address !== undefined">
-              <a href="#"
-                ><i class="material-icons">home</i><span>Помещение</span></a
-              >
-            </li>
             <li v-if="searchResult[1].address !== undefined">
               <a href="#"
                 ><i class="material-icons"> landscape </i
                 ><span>Земельный участок</span></a
               >
             </li>
+            <li v-if="searchResult[5].address !== undefined">
+              <a href="#"
+                ><i class="material-icons">home</i><span>Помещение</span></a
+              >
+            </li>
           </ul>
           <ul class="uk-switcher uk-margin info-box">
-            <li v-if="searchResult[5].address !== undefined">
+            <li
+              v-for="(rs,index) in searchResult"
+              v-if="searchResult[index] !== undefined && searchResult[index].address !== undefined"
+            >
               <div v-if="loading" uk-spinner></div>
               <div class="house_info" v-else>
                 <div
-                  v-for="(res,key) in  searchResult[5]"
+                  v-for="(res,key) in  searchResult[index]"
                   v-if="res !== null && key !=
                 'cad_eng_data' && key != 'elements_constuct' && objectAttributes[key] !== undefined"
                   class="info-item"
@@ -111,68 +114,32 @@
                   <span class="value">{{res}}</span>
                 </div>
                 <div
-                  v-if="searchResult[5].cad_eng_data !== undefined,null"
+                  v-if="searchResult[index].cad_eng_data !== undefined,null"
                   class="info-item"
                 >
                   <span class="key">
                     Кадастровый инженер
                   </span>
                   <span>
-                    {{searchResult[5].cad_eng_data.ci_surname}}
-                    {{searchResult[5].cad_eng_data.ci_first}}
-                    {{searchResult[5].cad_eng_data.ci_patronymic}}</span
+                    {{searchResult[index].cad_eng_data.ci_surname}}
+                    {{searchResult[index].cad_eng_data.ci_first}}
+                    {{searchResult[index].cad_eng_data.ci_patronymic}}</span
                   >
                 </div>
                 <div
-                  v-if="searchResult[5].elements_constuct !== undefined"
+                  v-if="searchResult[index].elements_constuct !== undefined"
                   class="info-item"
                 >
                   <span class="key">Материал стен</span>
                   <span class="value"
-                    >{{searchResult[5].elements_constuct[0].wall}}</span
+                    >{{searchResult[index].elements_constuct[0].wall}}</span
                   >
                 </div>
                 <a
                   class="button egrnButton"
                   target="_blank"
-                  :href="'https://ruegrn.info/egrn?query='+searchResult[5].cn"
+                  :href="'https://ruegrn.info/egrn?query='+searchResult[index].cn"
                   >Получить выписку</a
-                >
-              </div>
-            </li>
-            <li v-if="searchResult[1].address !== undefined">
-              <div
-                v-for="(res,key) in  searchResult[1]"
-                v-if="res !== null && key !=
-        'cad_eng_data' && key != 'elements_constuct' && objectAttributes[key] !== undefined"
-                class="info-item"
-              >
-                <span class="key">
-                  {{objectAttributes[key] !== undefined ? objectAttributes[key]
-                  : ''}}
-                </span>
-                <span class="value">{{res}}</span>
-              </div>
-              <div
-                v-if="searchResult[5].cad_eng_data !== undefined,null"
-                class="info-item"
-              >
-                <span class="key">
-                  Кадастровый инженер
-                </span>
-                <span class="value">
-                  {{searchResult[1].cad_eng_data.ci_surname}}
-                  {{searchResult[1].cad_eng_data.ci_first}}
-                  {{searchResult[1].cad_eng_data.ci_patronymic}}</span
-                >
-              </div>
-              <div
-                v-if="searchResult[1].elements_constuct !== undefined"
-                class="info-item"
-              >
-                <span class="key">Материал стен</span>
-                <span class="value"
-                  >{{searchResult[1].elements_constuct[0].wall}}</span
                 >
               </div>
             </li>

@@ -176,6 +176,7 @@ body {
 
   li {
     list-style-type: none;
+    transition: 1s;
   }
 
   position: absolute;
@@ -191,4 +192,17 @@ body {
   z-index: 999;
   top: 20px;
   left: 10px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active до версии 2.1.8 */
+  {
+  opacity: 0;
 }

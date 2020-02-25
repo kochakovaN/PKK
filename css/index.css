@@ -202,6 +202,8 @@ body {
 
 #search_box li {
   list-style-type: none;
+  -webkit-transition: 1s;
+  transition: 1s;
 }
 
 #search_box .house_info {
@@ -212,5 +214,16 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  -webkit-transition: opacity .5s;
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 /*# sourceMappingURL=index.css.map */

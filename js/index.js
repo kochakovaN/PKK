@@ -304,7 +304,7 @@ async function searchAdress(adress, count) {
 function getData(coords, type, source) {
   let result = {};
   vueData.openSearchBox = true;
-
+  vueData.adressSugestions = [];
   vueData.loading = true;
   vueData.searchResult = [];
 

@@ -136,7 +136,7 @@ body {
   color: #295477;
 }
 
-#search_box .menu li a[aria-expanded="true"] {
+#search_box .menu .active a {
   border-bottom: none;
   color: #295477;
 }
@@ -198,6 +198,10 @@ body {
 #search_box .search_result_container .closeButton span {
   padding: 5px;
   cursor: pointer;
+}
+
+#search_box li {
+  list-style-type: none;
 }
 
 #search_box .house_info {

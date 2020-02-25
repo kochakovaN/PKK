@@ -77,26 +77,24 @@
           Нажмите на любой объект, чтобы получить информацию о нем</span
         >
         <div style="width:100%;padding-left:0;" v-else>
-          <ul
-            class="menu"
-            uk-switcher="animation: uk-animation-slide-right-small"
-          >
-            <li v-if="searchResult[1].address !== undefined">
-              <a href="#"
-                ><i class="material-icons"> landscape </i
-                ><span>Земельный участок</span></a
-              >
-            </li>
-            <li v-if="searchResult[5].address !== undefined">
-              <a href="#"
-                ><i class="material-icons">home</i><span>Помещение</span></a
-              >
-            </li>
-          </ul>
-          <ul class="uk-switcher uk-margin info-box">
+          <ul class="menu">
             <li
               v-for="(rs,index) in searchResult"
               v-if="searchResult[index] !== undefined && searchResult[index].address !== undefined"
+              :class="activeIndex === index ? 'active' : ''"
+              @click="activeIndex = index"
+            >
+              <a href="#"
+                ><i class="material-icons"> {{objectTypes[index].icon}} </i
+                ><span>{{objectTypes[index].title}}</span></a
+              >
+            </li>
+          </ul>
+          <ul class="uk-margin info-box">
+            <li
+              v-for="(rs,index) in searchResult"
+              v-if="searchResult[index] !== undefined && searchResult[index].address !== undefined"
+              v-show="activeIndex === index"
             >
               <div v-if="loading" uk-spinner></div>
               <div class="house_info" v-else>

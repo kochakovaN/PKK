@@ -130,6 +130,7 @@ vueData = {
   searchResult: [],
   objectAttributes,
   objectTypes,
+  activeIndex: 1,
   suggestedCoords: 0,
   openSearchBox: true,
   searchQuery: "",

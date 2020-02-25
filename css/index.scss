@@ -101,6 +101,7 @@ body {
       flex: 1;
       justify-content: center;
 
+
       a {
         padding: 4px 8px;
         color: #929398;
@@ -113,11 +114,16 @@ body {
 
       }
 
-      a[aria-expanded="true"] {
+
+    }
+
+    .active {
+      a {
         border-bottom: none;
         //box-shadow: inset 0px 2px 5px 2px #f1f1f1;
         color: #295477;
       }
+
     }
   }
 
@@ -150,7 +156,6 @@ body {
   .search_result_container {
     .closeButton {
       flex: 1;
-
       display: flex;
       justify-content: flex-end;
 
@@ -167,6 +172,10 @@ body {
     overflow-x: hidden;
 
     background: white;
+  }
+
+  li {
+    list-style-type: none;
   }
 
   position: absolute;

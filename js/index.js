@@ -419,7 +419,7 @@ function setMarker(coords) {
     : marker._map !== null
     ? marker.setLatLng(coords)
     : marker.addTo(map);
-  map.setView(coords, 18);
+  map.setView(coords);
 }
 
 async function searchAdress(adress, count) {
@@ -492,14 +492,7 @@ function getData(coords, type, source) {
               vueData.loading = false;
 
               if (response.feature !== null) {
-                let bbox =
-                  map.getBounds().getWest() +
-                  "," +
-                  map.getBounds().getSouth() +
-                  "," +
-                  map.getBounds().getEast() +
-                  "," +
-                  map.getBounds().getNorth();
+                map.setView(coords.split(","), 18);
                 if (type == 5) {
                   formLayer = L.tileLayer.wms(
                     "https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/CadastreSelected/MapServer/export?",

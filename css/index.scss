@@ -21,7 +21,7 @@ body {
 .info-item {
 
   display: flex;
-
+  flex-wrap: wrap;
   flex-direction: row;
   border-bottom: 1px dashed #ddd;
 
@@ -53,6 +53,8 @@ body {
 }
 
 #search_box {
+  z-index: 9999;
+  position: relative;
 
   .egrnButton {
     color: white;
@@ -88,6 +90,7 @@ body {
     list-style: none;
     justify-content: space-around;
     padding: 0;
+    flex-wrap: wrap;
     padding: 0px 32px;
 
     li:first-child {
@@ -132,6 +135,7 @@ body {
     overflow: auto;
     overflow-x: hidden;
     padding: 0px;
+    max-width: 90%;
     padding: 16px 32px;
   }
 
@@ -189,8 +193,9 @@ body {
   }
 
   width: 500px;
-  z-index: 999;
+  max-width: 93vw;
   top: 20px;
+  flex-wrap: wrap;
   left: 10px;
 }
 

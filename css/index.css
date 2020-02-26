@@ -24,6 +24,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
@@ -60,10 +62,14 @@ body {
 }
 
 #search_box {
+  z-index: 9999;
+  position: relative;
   position: absolute;
   width: 500px;
-  z-index: 999;
+  max-width: 93vw;
   top: 20px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   left: 10px;
 }
 
@@ -109,6 +115,8 @@ body {
   -ms-flex-pack: distribute;
       justify-content: space-around;
   padding: 0;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   padding: 0px 32px;
 }
 
@@ -146,6 +154,7 @@ body {
   overflow: auto;
   overflow-x: hidden;
   padding: 0px;
+  max-width: 90%;
   padding: 16px 32px;
 }
 

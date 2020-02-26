@@ -42,6 +42,7 @@
           placeholder="Введите адрес или кадастровый номер"
           v-model="searchQuery"
           type="search"
+          list="suggestions_list"
           name=""
           id="searchInput"
           @input="suggestAdress"
@@ -63,7 +64,7 @@
         uk-tab
       >
         <div class="closeButton">
-          <span v-on:click="searchResult = [];searchQuery=''"
+          <span v-on:click="searchQuery=''"
             ><i class="material-icons">close</i></span
           >
         </div>
@@ -92,14 +93,14 @@
           </ul>
           <ul class="uk-margin info-box">
             <li
-              v-for="(rs,index) in searchResult"
-              v-if="searchResult[index] !== undefined && searchResult[index].address !== undefined"
-              v-show="activeIndex === index"
+              v-if="searchResult[1] !== undefined && searchResult[1].address !== undefined"
+              v-show="activeIndex === 1"
             >
               <div v-if="loading" uk-spinner></div>
               <div class="house_info" v-else>
+                <!--
                 <div
-                  v-for="(res,key) in  searchResult[index]"
+                  v-for="(res,key) in  searchResult[1]"
                   v-if="res !== null && key !=
                 'cad_eng_data' && key != 'elements_constuct' && objectAttributes[key] !== undefined"
                   class="info-item"
@@ -111,32 +112,228 @@
                   </span>
                   <span class="value">{{res}}</span>
                 </div>
+                -->
+                <div class="info-item">
+                  <span class="key">
+                    Кад.номер
+                  </span>
+                  <span class="value">
+                    {{searchResult[1].cn}}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Адрес
+                  </span>
+                  <span class="value">
+                    {{ searchResult[1].address}}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Общая площадь
+                  </span>
+                  <span class="value">
+                    {{searchResult[1].area_value}} квадратный метр
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Кадастровая стоимость
+                  </span>
+                  <span class="value">
+                    {{searchResult[1].cad_cost}} руб.
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Статус
+                  </span>
+                  <span class="value">
+                    {{searchResult[1].rights_reg == 1 ? "Учтеный" : `Не
+                    учтеный`}}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Категория земель
+                  </span>
+                  <span class="value">
+                    {{landscape_type[searchResult[1].category_type] !==
+                    undefined ? landscape_type[searchResult[1].category_type] :
+                    searchResult[1].category_type}}
+                  </span>
+                </div>
+
+                <div class="info-item">
+                  <span class="key">
+                    Тип разрешенного использования
+                  </span>
+                  <span class="value">
+                    {{searchResult[1].util_by_doc !== undefined ?
+                    searchResult[1].util_by_doc : "нет данных"}}.
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Форма собственности
+                  </span>
+                  <span class="value">
+                    {{leg_type[searchResult[1].fp]}}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Постановка на учет
+                  </span>
+                  <span class="value">
+                    {{searchResult[1].date_create}}
+                  </span>
+                </div>
                 <div
-                  v-if="searchResult[index].cad_eng_data !== undefined,null"
+                  v-if="searchResult[1].cad_eng_data !== undefined,null"
                   class="info-item"
                 >
                   <span class="key">
                     Кадастровый инженер
                   </span>
                   <span>
-                    {{searchResult[index].cad_eng_data.ci_surname}}
-                    {{searchResult[index].cad_eng_data.ci_first}}
-                    {{searchResult[index].cad_eng_data.ci_patronymic}}</span
+                    {{searchResult[1].cad_eng_data.ci_surname}}
+                    {{searchResult[1].cad_eng_data.ci_first}}
+                    {{searchResult[1].cad_eng_data.ci_patronymic}}</span
                   >
                 </div>
                 <div
-                  v-if="searchResult[index].elements_constuct !== undefined,null"
+                  v-if="searchResult[1].elements_constuct !== undefined,null"
                   class="info-item"
                 >
                   <span class="key">Материал стен</span>
                   <span class="value"
-                    >{{searchResult[index].elements_constuct[0].wall}}</span
+                    >{{searchResult[1].elements_constuct[0].wall}}</span
                   >
                 </div>
                 <a
                   class="button egrnButton"
                   target="_blank"
-                  :href="'https://ruegrn.info/egrn?query='+searchResult[index].cn"
+                  :href="'https://ruegrn.info/egrn?query='+searchResult[1].cn"
+                  >Получить выписку</a
+                >
+              </div>
+            </li>
+            <li
+              v-if="searchResult[5] !== undefined && searchResult[5].address !== undefined"
+              v-show="activeIndex === 5"
+            >
+              <div v-if="loading" uk-spinner></div>
+              <div class="house_info" v-else>
+                <!--
+                <div
+                  v-for="(res,key) in  searchResult[5]"
+                  v-if="res !== null && key !=
+                'cad_eng_data' && key != 'elements_constuct' && objectAttributes[key] !== undefined"
+                  class="info-item"
+                >
+                  <span class="key">
+                    {{objectAttributes[key] !== undefined ?
+                    objectAttributes[key] : building_type[key] !== undefined ?
+                    building_type[key] : key}}
+                  </span>
+                  <span class="value">{{res}}</span>
+                </div>
+                -->
+                <div class="info-item">
+                  <span class="key">
+                    Кад.номер
+                  </span>
+                  <span class="value">
+                    {{searchResult[5].cn}}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Адрес
+                  </span>
+                  <span class="value">
+                    {{ searchResult[5].address}}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Общая площадь
+                  </span>
+                  <span class="value">
+                    {{searchResult[5].area_value}} квадратный метр
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Кадастровая стоимость
+                  </span>
+                  <span class="value">
+                    {{searchResult[5].cad_cost}} руб.
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Статус
+                  </span>
+                  <span class="value">
+                    Учтеный
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Категория земель
+                  </span>
+                  <span class="value">
+                    {{building_type[searchResult[5].purpose] !== undefined ?
+                    building_type[searchResult[5].purpose] :
+                    searchResult[5].purpose}}
+                  </span>
+                </div>
+
+                <div class="info-item">
+                  <span class="key">
+                    Форма собственности
+                  </span>
+                  <span class="value">
+                    {{leg_type[searchResult[5].fp]}}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Постановка на учет
+                  </span>
+                  <span class="value">
+                    {{searchResult[5].date_create}}
+                  </span>
+                </div>
+                <div
+                  v-if="searchResult[5].cad_eng_data !== undefined && searchResult[5].cad_eng_data !== null"
+                  class="info-item"
+                >
+                  <span class="key">
+                    Кадастровый инженер
+                  </span>
+                  <span class="value">
+                    {{searchResult[5].cad_eng_data.ci_surname}}
+                    {{searchResult[5].cad_eng_data.ci_first}}
+                    {{searchResult[5].cad_eng_data.ci_patronymic}}</span
+                  >
+                </div>
+                <div
+                  v-if="searchResult[5].elements_constuct !== undefined,null"
+                  class="info-item"
+                >
+                  <span class="key">Материал стен</span>
+                  <span class="value"
+                    >{{searchResult[5].elements_constuct[0].wall}}</span
+                  >
+                </div>
+                <a
+                  class="button egrnButton"
+                  target="_blank"
+                  :href="'https://ruegrn.info/egrn?query='+searchResult[5].cn"
                   >Получить выписку</a
                 >
               </div>
@@ -144,6 +341,13 @@
           </ul>
         </div>
       </ul>
+      <datalist id="suggestions_list">
+        <option
+          v-for="suggestions in adressSugestions"
+          :value="suggestions.value"
+          >{{suggestions.value}}</option
+        >
+      </datalist>
     </div>
     <div id="map"></div>
   </body>

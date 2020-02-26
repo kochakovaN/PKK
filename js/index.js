@@ -743,7 +743,13 @@ function getData(coords, type, source) {
         });
 
         cn = cn.join(":");
-
+        if(type === 5){
+          fetch(`https://reestr.cloud/getInfByCadnomer?cadnomer=${cn}&mapKey=RGRNHdwhIrjhrthbg8392djfghg24452m2-GHJLPRST`).then( info =>{
+            info.json().then(info =>{
+              console.log(info)
+            })
+          })
+        }
         fetch(`https://pkk5.rosreestr.ru/api/features/${type}/${cn}`, {}).then(
           info =>
             info.json().then(response => {

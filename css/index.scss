@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #map {
@@ -19,7 +20,7 @@ body {
 }
 
 .info-item {
-
+  font-size: 14px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -28,12 +29,25 @@ body {
   .key {
     color: black;
     width: 150px;
+    font-weight: 600;
   }
 
   .value {
     padding-left: 10px;
     flex: 1
   }
+}
+
+.more_info_button {
+  display: flex;
+  text-decoration: none;
+  color: blue;
+
+  &:hover {
+    color: red
+  }
+
+  align-items: center;
 }
 
 .button {

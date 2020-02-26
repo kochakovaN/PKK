@@ -141,94 +141,108 @@
                     searchResult[1].area_value + " квадратный метр" : "" }}
                   </span>
                 </div>
-                <div class="info-item">
-                  <span class="key">
-                    Кадастровая стоимость
-                  </span>
-                  <span class="value">
-                    {{ searchResult[1].cad_cost !== null ?
-                    searchResult[1].cad_cost + " руб." : ""}}
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Статус
-                  </span>
-                  <span class="value">
-                    {{searchResult[1].rights_reg == 1 ? "Учтеный" : `Не
-                    учтеный`}}
-                  </span>
-                </div>
                 <div
-                  v-if="searchResult[5].name !== undefined"
-                  class="info-item"
+                  class="more_info"
+                  :style="!moreInfo[1] ? 'display:none' : ''"
                 >
-                  <span class="key">
-                    Назначение
-                  </span>
-                  <span class="value">
-                    {{searchResult[5].name !== undefined ? searchResult[5].name
-                    + "" : "" }}
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Категория земель
-                  </span>
-                  <span class="value">
-                    {{landscape_type[searchResult[1].category_type] !==
-                    undefined ? landscape_type[searchResult[1].category_type] :
-                    searchResult[1].category_type}}
-                  </span>
-                </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Кадастровая стоимость
+                    </span>
+                    <span class="value">
+                      {{ searchResult[1].cad_cost !== null ?
+                      searchResult[1].cad_cost + " руб." : ""}}
+                    </span>
+                  </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Статус
+                    </span>
+                    <span class="value">
+                      {{searchResult[1].rights_reg == 1 ? "Учтеный" : `Не
+                      учтеный`}}
+                    </span>
+                  </div>
+                  <div
+                    v-if="searchResult[1].name !== undefined && searchResult[1].name !== null"
+                    class="info-item"
+                  >
+                    <span class="key">
+                      Назначение
+                    </span>
+                    <span class="value">
+                      {{searchResult[1].name !== undefined ?
+                      searchResult[1].name + "" : "" }}
+                    </span>
+                  </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Категория земель
+                    </span>
+                    <span class="value">
+                      {{landscape_type[searchResult[1].category_type] !==
+                      undefined ? landscape_type[searchResult[1].category_type]
+                      : searchResult[1].category_type}}
+                    </span>
+                  </div>
 
-                <div class="info-item">
-                  <span class="key">
-                    Тип разрешенного использования
-                  </span>
-                  <span class="value">
-                    {{searchResult[1].util_by_doc !== undefined ?
-                    searchResult[1].util_by_doc : "нет данных"}}.
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Форма собственности
-                  </span>
-                  <span class="value">
-                    {{leg_type[searchResult[1].fp]}}
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Постановка на учет
-                  </span>
-                  <span class="value">
-                    {{searchResult[1].date_create}}
-                  </span>
-                </div>
-                <div
-                  v-if="searchResult[1].cad_eng_data !== undefined,null"
-                  class="info-item"
-                >
-                  <span class="key">
-                    Кадастровый инженер
-                  </span>
-                  <span>
-                    {{searchResult[1].cad_eng_data.ci_surname}}
-                    {{searchResult[1].cad_eng_data.ci_first}}
-                    {{searchResult[1].cad_eng_data.ci_patronymic}}</span
+                  <div class="info-item">
+                    <span class="key">
+                      Тип разрешенного использования
+                    </span>
+                    <span class="value">
+                      {{searchResult[1].util_by_doc !== undefined ?
+                      searchResult[1].util_by_doc : "нет данных"}}.
+                    </span>
+                  </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Форма собственности
+                    </span>
+                    <span class="value">
+                      {{leg_type[searchResult[1].fp]}}
+                    </span>
+                  </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Постановка на учет
+                    </span>
+                    <span class="value">
+                      {{searchResult[1].date_create}}
+                    </span>
+                  </div>
+                  <div
+                    v-if="searchResult[1].cad_eng_data !== undefined,null"
+                    class="info-item"
                   >
-                </div>
-                <div
-                  v-if="searchResult[1].elements_constuct !== undefined,null"
-                  class="info-item"
-                >
-                  <span class="key">Материал стен</span>
-                  <span class="value"
-                    >{{searchResult[1].elements_constuct[0].wall}}</span
+                    <span class="key">
+                      Кадастровый инженер
+                    </span>
+                    <span>
+                      {{searchResult[1].cad_eng_data.ci_surname}}
+                      {{searchResult[1].cad_eng_data.ci_first}}
+                      {{searchResult[1].cad_eng_data.ci_patronymic}}</span
+                    >
+                  </div>
+                  <div
+                    v-if="searchResult[1].elements_constuct !== undefined,null"
+                    class="info-item"
                   >
+                    <span class="key">Материал стен</span>
+                    <span class="value"
+                      >{{searchResult[1].elements_constuct[0].wall}}</span
+                    >
+                  </div>
                 </div>
+                <span
+                  @click="moreInfo[1] = !moreInfo[1]"
+                  href=""
+                  class="button more_info_button"
+                  >{{!moreInfo[1] ? "подробно" : "кратко"}}
+                  <i class="material-icons"
+                    >{{!moreInfo[1] ? "arrow_drop_down" : "arrow_drop_up"}}</i
+                  ></span
+                >
                 <a
                   class="button egrnButton"
                   target="_blank"
@@ -283,81 +297,98 @@
                     searchResult[5].area_value + " квадратный метр" : "" }}
                   </span>
                 </div>
-                <div class="info-item">
-                  <span class="key">
-                    Кадастровая стоимость
-                  </span>
-                  <span class="value">
-                    {{ searchResult[5].cad_cost !== null ?
-                    searchResult[5].cad_cost + " руб." : ""}}
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Статус
-                  </span>
-                  <span class="value">
-                    Учтеный
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Назначение
-                  </span>
-                  <span class="value">
-                    {{searchResult[5].name !== undefined ? searchResult[5].name
-                    + "" : "" }}
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Категория земель
-                  </span>
-                  <span class="value">
-                    {{building_type[searchResult[5].purpose] !== undefined ?
-                    building_type[searchResult[5].purpose] :
-                    searchResult[5].purpose}}
-                  </span>
-                </div>
+                <div
+                  class="more_info"
+                  :style="!moreInfo[5] ? 'display:none' : ''"
+                >
+                  <div class="info-item">
+                    <span class="key">
+                      Кадастровая стоимость
+                    </span>
+                    <span class="value">
+                      {{ searchResult[5].cad_cost !== null ?
+                      searchResult[5].cad_cost + " руб." : ""}}
+                    </span>
+                  </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Статус
+                    </span>
+                    <span class="value">
+                      Учтеный
+                    </span>
+                  </div>
+                  <div
+                    v-if="searchResult[5].name !== undefined && searchResult[5].name !== null"
+                    class="info-item"
+                  >
+                    <span class="key">
+                      Назначение
+                    </span>
+                    <span class="value">
+                      {{searchResult[5].name !== undefined ?
+                      searchResult[5].name + "" : "" }}
+                    </span>
+                  </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Категория земель
+                    </span>
+                    <span class="value">
+                      {{building_type[searchResult[5].purpose] !== undefined ?
+                      building_type[searchResult[5].purpose] :
+                      searchResult[5].purpose}}
+                    </span>
+                  </div>
 
-                <div class="info-item">
-                  <span class="key">
-                    Форма собственности
-                  </span>
-                  <span class="value">
-                    {{leg_type[searchResult[5].fp]}}
-                  </span>
-                </div>
-                <div class="info-item">
-                  <span class="key">
-                    Постановка на учет
-                  </span>
-                  <span class="value">
-                    {{searchResult[5].date_create}}
-                  </span>
-                </div>
-                <div
-                  v-if="searchResult[5].cad_eng_data !== undefined && searchResult[5].cad_eng_data !== null"
-                  class="info-item"
-                >
-                  <span class="key">
-                    Кадастровый инженер
-                  </span>
-                  <span class="value">
-                    {{searchResult[5].cad_eng_data.ci_surname}}
-                    {{searchResult[5].cad_eng_data.ci_first}}
-                    {{searchResult[5].cad_eng_data.ci_patronymic}}</span
+                  <div class="info-item">
+                    <span class="key">
+                      Форма собственности
+                    </span>
+                    <span class="value">
+                      {{leg_type[searchResult[5].fp]}}
+                    </span>
+                  </div>
+                  <div class="info-item">
+                    <span class="key">
+                      Постановка на учет
+                    </span>
+                    <span class="value">
+                      {{searchResult[5].date_create}}
+                    </span>
+                  </div>
+                  <div
+                    v-if="searchResult[5].cad_eng_data !== undefined && searchResult[5].cad_eng_data !== null"
+                    class="info-item"
                   >
-                </div>
-                <div
-                  v-if="searchResult[5].elements_constuct !== undefined,null"
-                  class="info-item"
-                >
-                  <span class="key">Материал стен</span>
-                  <span class="value"
-                    >{{searchResult[5].elements_constuct[0].wall}}</span
+                    <span class="key">
+                      Кадастровый инженер
+                    </span>
+                    <span class="value">
+                      {{searchResult[5].cad_eng_data.ci_surname}}
+                      {{searchResult[5].cad_eng_data.ci_first}}
+                      {{searchResult[5].cad_eng_data.ci_patronymic}}</span
+                    >
+                  </div>
+                  <div
+                    v-if="searchResult[5].elements_constuct !== undefined,null"
+                    class="info-item"
                   >
+                    <span class="key">Материал стен</span>
+                    <span class="value"
+                      >{{searchResult[5].elements_constuct[0].wall}}</span
+                    >
+                  </div>
                 </div>
+                <span
+                  @click="moreInfo[5] = !moreInfo[5]"
+                  href=""
+                  class="button more_info_button"
+                  >{{!moreInfo[5] ? "подробно" : "кратко"}}
+                  <i class="material-icons"
+                    >{{!moreInfo[5] ? "arrow_drop_down" : "arrow_drop_up"}}</i
+                  ></span
+                >
                 <a
                   class="button egrnButton"
                   target="_blank"

@@ -223,6 +223,10 @@ vueData = {
   activeIndex: 1,
   suggestedCoords: 0,
   openSearchBox: true,
+  moreInfo: {
+    1: false,
+    5: false
+  },
   searchQuery: "",
   loading: false,
   searchTimeOut: false
@@ -263,7 +267,14 @@ var app = new Vue({
     },
 
     suggestAdress: coords => {
-      searchAdress(coords.target.value, 5);
+      if (!vueData.searchTimeOut) {
+        searchAdress(coords.target.value, 5);
+        vueData.searchTimeOut = true;
+        setTimeout(() => {
+          vueData.searchTimeOut = false;
+          searchAdress(coords.target.value, 5);
+        }, 1000);
+      }
     },
     showSuggestWrapper: data => {
       vueData.shouldShowSuggestWrapper = !vueData.shouldShowSuggestWrapper;
@@ -463,7 +474,7 @@ function getData(coords, type, source) {
           : console.log(resp);
 
         if (source === 0) {
-          if (type === 5) getAdressCoords(resp.features[0].attrs.address);
+          getAdressCoords(resp.features[0].attrs.address);
         }
 
         let cn = resp.features[0].attrs.cn;
@@ -536,12 +547,16 @@ function getData(coords, type, source) {
 
 async function getAdressCoords(adress) {
   searchAdress(adress, 1).then(data => {
-    let suggested_coords = `${vueData.adressSugestions[0].data.geo_lat},${vueData.adressSugestions[0].data.geo_lon}`;
-    getData(suggested_coords, 5);
-    getData(suggested_coords, 1);
-    setMarker(suggested_coords);
-    vueData.suggestedCoords = suggested_coords;
-    vueData.adressSugestions = [];
-    return suggested_coords;
+    console.log(data);
+    if (vueData.adressSugestions[0] === undefined) {
+    } else {
+      let suggested_coords = `${vueData.adressSugestions[0].data.geo_lat},${vueData.adressSugestions[0].data.geo_lon}`;
+      getData(suggested_coords, 5);
+      getData(suggested_coords, 1);
+      setMarker(suggested_coords);
+      vueData.suggestedCoords = suggested_coords;
+      vueData.adressSugestions = [];
+      return suggested_coords;
+    }
   });
 }

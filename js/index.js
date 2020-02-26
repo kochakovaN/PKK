@@ -560,3 +560,12 @@ async function getAdressCoords(adress) {
     }
   });
 }
+
+document.querySelector("#searchInput").addEventListener("focus", event => {
+  vueData.shouldShowSuggestWrapper = true;
+});
+document
+  .querySelector("#suggestionWrapper")
+  .addEventListener("focus", event => {
+    vueData.shouldShowSuggestWrapper = true;
+  });

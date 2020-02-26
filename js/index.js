@@ -454,7 +454,7 @@ function getData(coords, type, source) {
   let result = {};
 
   if (type === 5) {
-    console.log(formLayer);
+    //marker !== undefined ? map.removeLayer(marker) : ;
     formLayer !== undefined ? map.removeLayer(formLayer) : "";
   }
   vueData.openSearchBox = true;

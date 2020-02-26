@@ -42,15 +42,18 @@
   <body>
     <div id="search_box">
       <div>
-        <input
-          placeholder="Введите адрес или кадастровый номер"
-          v-model="searchQuery"
-          type="search"
-          name=""
-          id="searchInput"
-          @input="suggestAdress"
-          @change="inputChanged"
-        />
+        <div style="display:flex;">
+          <input
+            placeholder="Введите адрес или кадастровый номер"
+            v-model="searchQuery"
+            type="search"
+            name=""
+            id="searchInput"
+            @input="suggestAdress"
+            @change="inputChanged"
+          />
+          <button>Искать</button>
+        </div>
         <div v-show="shouldShowSuggestWrapper" id="suggestionWrapper">
           <span
             class="suggestionItem"
@@ -97,8 +100,7 @@
           <ul class="uk-margin info-box">
             <li
               v-if="searchResult[1] !== undefined && searchResult[1].address !== undefined"
-              v-show="activeIndex === 1"
-            >
+              v-show="activeIndex === 1">
               <div v-if="loading" uk-spinner></div>
               <div class="house_info" v-else>
                 <!--
@@ -255,8 +257,7 @@
             </li>
             <li
               v-if="searchResult[5] !== undefined && searchResult[5].address !== undefined"
-              v-show="activeIndex === 5"
-            >
+              v-show="activeIndex === 5">
               <div v-if="loading" uk-spinner></div>
               <div class="house_info" v-else>
                 <!--

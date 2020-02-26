@@ -1,6 +1,9 @@
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  font-size: 14;
+
 }
 
 #map {
@@ -27,7 +30,7 @@ body {
   border-bottom: 1px dashed #ddd;
 
   .key {
-    color: black;
+
     width: 150px;
     font-weight: 600;
   }
@@ -41,10 +44,11 @@ body {
 .more_info_button {
   display: flex;
   text-decoration: none;
-  color: blue;
+  color: #17557d;
+  font-size: 10px;
 
   &:hover {
-    color: red
+    color: #134668
   }
 
   align-items: center;

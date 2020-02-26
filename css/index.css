@@ -1,6 +1,8 @@
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  font-size: 14;
 }
 
 #map {
@@ -36,7 +38,6 @@ body {
 }
 
 .info-item .key {
-  color: black;
   width: 150px;
   font-weight: 600;
 }
@@ -53,14 +54,15 @@ body {
   display: -ms-flexbox;
   display: flex;
   text-decoration: none;
-  color: blue;
+  color: #17557d;
+  font-size: 10px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
 }
 
 .more_info_button:hover {
-  color: red;
+  color: #134668;
 }
 
 .button {

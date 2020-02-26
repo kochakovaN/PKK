@@ -2,7 +2,11 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Карта</title>
     <link
@@ -42,7 +46,6 @@
           placeholder="Введите адрес или кадастровый номер"
           v-model="searchQuery"
           type="search"
-          list="suggestions_list"
           name=""
           id="searchInput"
           @input="suggestAdress"
@@ -134,7 +137,8 @@
                     Общая площадь
                   </span>
                   <span class="value">
-                    {{searchResult[1].area_value}} квадратный метр
+                    {{searchResult[1].area_value !== null ?
+                    searchResult[1].area_value + " квадратный метр" : "" }}
                   </span>
                 </div>
                 <div class="info-item">
@@ -142,7 +146,8 @@
                     Кадастровая стоимость
                   </span>
                   <span class="value">
-                    {{searchResult[1].cad_cost}} руб.
+                    {{ searchResult[1].cad_cost !== null ?
+                    searchResult[1].cad_cost + " руб." : ""}}
                   </span>
                 </div>
                 <div class="info-item">
@@ -152,6 +157,18 @@
                   <span class="value">
                     {{searchResult[1].rights_reg == 1 ? "Учтеный" : `Не
                     учтеный`}}
+                  </span>
+                </div>
+                <div
+                  v-if="searchResult[5].name !== undefined"
+                  class="info-item"
+                >
+                  <span class="key">
+                    Назначение
+                  </span>
+                  <span class="value">
+                    {{searchResult[5].name !== undefined ? searchResult[5].name
+                    + "" : "" }}
                   </span>
                 </div>
                 <div class="info-item">
@@ -262,7 +279,8 @@
                     Общая площадь
                   </span>
                   <span class="value">
-                    {{searchResult[5].area_value}} квадратный метр
+                    {{searchResult[5].area_value !== null ?
+                    searchResult[5].area_value + " квадратный метр" : "" }}
                   </span>
                 </div>
                 <div class="info-item">
@@ -270,7 +288,8 @@
                     Кадастровая стоимость
                   </span>
                   <span class="value">
-                    {{searchResult[5].cad_cost}} руб.
+                    {{ searchResult[5].cad_cost !== null ?
+                    searchResult[5].cad_cost + " руб." : ""}}
                   </span>
                 </div>
                 <div class="info-item">
@@ -279,6 +298,15 @@
                   </span>
                   <span class="value">
                     Учтеный
+                  </span>
+                </div>
+                <div class="info-item">
+                  <span class="key">
+                    Назначение
+                  </span>
+                  <span class="value">
+                    {{searchResult[5].name !== undefined ? searchResult[5].name
+                    + "" : "" }}
                   </span>
                 </div>
                 <div class="info-item">

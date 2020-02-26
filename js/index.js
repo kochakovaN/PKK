@@ -331,11 +331,57 @@ var overlays = {
 };
 
 var map = L.map("map", {
-  center: [57.097768401511225, 65.59434413909914],
-  zoom: 18,
+  center: [57.016814017391106, 47.109375],
+  zoom: 5,
   zoomControl: false,
   layers: [pkk, openStreetMaps]
 });
+
+function onLocationFound(e) {
+  console.log(e);
+  var radius = e.accuracy;
+
+  L.marker(e.latlng)
+    .addTo(map)
+    .bindPopup("You are within " + radius + " meters from this point")
+    .openPopup();
+
+  L.circle(e.latlng, radius).addTo(map);
+}
+
+function onLocationError(e) {
+  alert(e.message);
+}
+
+map.on("locationfound", onLocationFound);
+map.on("locationerror", onLocationError);
+
+function handlePermission() {
+  navigator.permissions.query({ name: "geolocation" }).then(function(result) {
+    if (result.state == "granted") {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(e => {
+          map.setView([e.coords.latitude, e.coords.longitude], 18);
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    } else if (result.state == "prompt") {
+      report(result.state);
+    } else if (result.state == "denied") {
+      report(result.state);
+    }
+    result.onchange = function() {
+      report(result.state);
+    };
+  });
+}
+
+function report(state) {
+  console.log("Permission " + state);
+}
+
+handlePermission();
 
 map.on("click", e => {
   let lat = e.latlng.lat;

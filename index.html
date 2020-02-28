@@ -26,8 +26,8 @@
       href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css"
     />
     <link rel="stylesheet" href="css/index.css" />
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script defer src="js/index.js?v1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script defer src="js/index.js?v1.2"></script>
     <!-- UIkit JS -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
@@ -52,7 +52,7 @@
             @input="suggestAdress"
             @change="inputChanged"
           />
-          <button>Искать</button>
+          <span class="button search_button">Искать</span>
         </div>
         <div v-show="shouldShowSuggestWrapper" id="suggestionWrapper">
           <span
@@ -123,7 +123,7 @@
                     Кад.номер
                   </span>
                   <span class="value">
-                    {{searchResult[1].cn}}
+                    {{searchResult[1].cadnum === undefined ? searchResult[1].cn : searchResult[1].cadnum}}
                   </span>
                 </div>
                 <div class="info-item">
@@ -134,84 +134,76 @@
                     {{ searchResult[1].address}}
                   </span>
                 </div>
-                <div class="info-item">
+                <div v-if="searchResult[1].area !== undefined" class="info-item">
                   <span class="key">
                     Общая площадь
                   </span>
                   <span class="value">
-                    {{searchResult[1].area_value !== null ?
-                    searchResult[1].area_value + " (Квадратный метр)" : "" }}
+                    {{searchResult[1].area}} ({{searchResult[1].unit}})
                   </span>
                 </div>
                 <div
                   class="more_info"
                   :style="!moreInfo[1] ? 'display:none' : ''"
                 >
-                  <div class="info-item">
+                  <div v-if="searchResult[1].cadastrial_cost !== undefined" class="info-item">
                     <span class="key">
                       Кадастровая стоимость
                     </span>
                     <span class="value">
-                      {{ searchResult[1].cad_cost !== null ?
-                      searchResult[1].cad_cost + " руб." : ""}}
+                      {{searchResult[1].cadastrial_cost + " руб."}}
                     </span>
                   </div>
-                  <div class="info-item">
+                  <div v-if="searchResult[1].status !== undefined" class="info-item">
                     <span class="key">
                       Статус
                     </span>
                     <span class="value">
-                      {{searchResult[1].rights_reg == 1 ? "Учтеный" : `Не
-                      учтеный`}}
+                      {{searchResult[1].status}}
                     </span>
                   </div>
                   <div
-                    v-if="searchResult[1].name !== undefined && searchResult[1].name !== null"
+                    v-if="searchResult[1].oks_type !== undefined"
                     class="info-item"
                   >
                     <span class="key">
                       Назначение
                     </span>
                     <span class="value">
-                      {{searchResult[1].name !== undefined ?
-                      searchResult[1].name + "" : "" }}
+                      {{searchResult[1].oks_type}}
                     </span>
                   </div>
-                  <div class="info-item">
+                  <div v-if="searchResult[1].category !== undefined" class="info-item">
                     <span class="key">
                       Категория земель
                     </span>
                     <span class="value">
-                      {{landscape_type[searchResult[1].category_type] !==
-                      undefined ? landscape_type[searchResult[1].category_type]
-                      : searchResult[1].category_type}}
+                      {{searchResult[1].category}}
                     </span>
                   </div>
 
-                  <div class="info-item">
+                  <div v-if="searchResult[1].allowed_use !== undefined" class="info-item">
                     <span class="key">
                       Тип разрешенного использования
                     </span>
                     <span class="value">
-                      {{availableLandUses[searchResult[1].util_code] !==
-                      undefined ? availableLandUses[searchResult[1].util_code] :
-                      searchResult[1].util_by_doc}}
+                      {{searchResult[1].allowed_use}}
                     </span>
                   </div>
-                  <div class="info-item">
+                  <div v-if="searchResult[1].ownersheep_type !== undefined && searchResult[1].ownersheep_type !== '' " class="info-item">
                     <span class="key">
                       Форма собственности
                     </span>
                     <span class="value">
-                      {{leg_type[searchResult[1].fp]}}
+                      {{searchResult[1].ownersheep_type}}
                     </span>
                   </div>
-                  <div class="info-item">
+                  <div v-if="searchResult[1].registration_date !== undefined" class="info-item">
                     <span class="key">
                       Постановка на учет
                     </span>
                     <span class="value">
-                      {{searchResult[1].date_create}}
+                      {{searchResult[1].registration_date}}
                     </span>
                   </div>
                   <div
@@ -239,7 +231,6 @@
                 </div>
                 <span
                   @click="moreInfo[1] = !moreInfo[1]"
-                  href=""
                   class="button more_info_button"
                 >
                   <i class="material-icons"
@@ -280,7 +271,7 @@
                     Кад.номер
                   </span>
                   <span class="value">
-                    {{searchResult[5].cn}}
+                    {{searchResult[5].cadnum === undefined ? searchResult[5].cn : searchResult[5].cadnum}}
                   </span>
                 </div>
                 <div class="info-item">
@@ -288,85 +279,71 @@
                     Адрес
                   </span>
                   <span class="value">
-                    {{ searchResult[5].address}}
+                    {{searchResult[5].address}}
                   </span>
                 </div>
-                <div class="info-item">
+                <div v-if="searchResult[1].area !== undefined" class="info-item">
                   <span class="key">
                     Общая площадь
                   </span>
                   <span class="value">
-                    {{searchResult[5].area_value !== null ?
-                    searchResult[5].area_value + " квадратный метр" : "" }}
+                    {{searchResult[5].area}} ({{searchResult[5].unit}})
                   </span>
                 </div>
                 <div
                   class="more_info"
                   :style="!moreInfo[5] ? 'display:none' : ''"
                 >
-                  <div class="info-item">
+                  <div v-if="searchResult[5].cadastrial_cost !== undefined" class="info-item">
                     <span class="key">
                       Кадастровая стоимость
                     </span>
                     <span class="value">
-                      {{ searchResult[5].cad_cost !== null ?
-                      searchResult[5].cad_cost + " руб." : ""}}
+                      {{searchResult[5].cadastrial_cost + " руб."}}
                     </span>
                   </div>
-                  <div class="info-item">
+                  <div v-if="searchResult[5].status !== undefined" class="info-item">
                     <span class="key">
                       Статус
                     </span>
                     <span class="value">
-                      Учтеный
+                      {{searchResult[5].status}}
                     </span>
                   </div>
                   <div
-                    v-if="searchResult[5].name !== undefined && searchResult[5].name !== null"
-                    class="info-item"
-                  >
+                  v-if="searchResult[5].obj_type !== undefined"
+                  class="info-item">
                     <span class="key">
-                      Назначение
+                      Тип
                     </span>
                     <span class="value">
-                      {{searchResult[5].name !== undefined ?
-                      searchResult[5].name + "" : "" }}
+                      {{searchResult[5].obj_type}}
                     </span>
                   </div>
-                  <div class="info-item">
+                  <div v-if="searchResult[5].oks_type !== undefined" class="info-item">
                     <span class="key">
                       Тип ОКС
                     </span>
                     <span class="value">
-                      {{searchResult[5].oks_type === "building" ? "Здание" : searchResult[5].oks_type}} (
-                      {{building_type[searchResult[5].purpose] !== undefined ?
-                      building_type[searchResult[5].purpose] :
-                      searchResult[5].purpose}})
+                      {{searchResult[5].oks_type}})
                     </span>
                   </div>
 
-                  <div class="info-item">
-                    <span class="key">
-                      Ввод в эксплуатацию
-                    </span>
-                    <span class="value">
-                      {{searchResult[5].date_create}}
-                    </span>
-                  </div>
-                  <div class="info-item">
+               
+                  <div v-if="searchResult[5].floors_cnt !== undefined" class="info-item">
                     <span class="key">
                       Общая этажность
                     </span>
                     <span class="value">
-                      {{searchResult[5].floors}}
+                      {{searchResult[5].floors_cnt}}
                     </span>
                   </div>
-                  <div class="info-item">
+                  <div v-if="searchResult[5].undergroud_floors !== undefined" class="info-item">
                     <span class="key">
                       Подземная этажность
                     </span>
                     <span class="value">
-                      {{searchResult[5].underground_floors}}
+                      {{searchResult[5].undergroud_floors}}
                     </span>
                   </div>
                   <div
@@ -383,13 +360,29 @@
                     >
                   </div>
                   <div
-                    v-if="searchResult[5].elements_constuct !== undefined && searchResult[5].elements_constuct !== null"
+                    v-if="searchResult[5].walls_material !== undefined"
                     class="info-item"
                   >
                     <span class="key">Материал стен</span>
                     <span class="value"
-                      >{{searchResult[5].elements_constuct[0].wall}}</span
+                      >{{searchResult[5].walls_material}}</span
                     >
+                  </div>
+                  <div v-if="searchResult[5].registration_date !== undefined" class="info-item">
+                    <span class="key">
+                      Ввод в эксплуатацию
+                    </span>
+                    <span class="value">
+                      {{searchResult[5].registration_date}}
+                    </span>
+                  </div>
+                      <div v-if="searchResult[5].registration_date !== undefined" class="info-item">
+                    <span class="key">
+                      Постановка на учет
+                    </span>
+                    <span class="value">
+                      {{searchResult[5].exploitation_start}}
+                    </span>
                   </div>
                 </div>
                 <span

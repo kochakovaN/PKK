@@ -52,7 +52,9 @@
             @input="suggestAdress"
             @change="inputChanged"
           />
-          <span class="button search_button">Искать</span>
+          <span @click="inputChanged({target:{
+            value:searchQuery
+          }})" class="button search_button">Искать</span>
         </div>
         <div v-show="shouldShowSuggestWrapper" id="suggestionWrapper">
           <span
@@ -86,8 +88,11 @@
         <div style="width:100%;padding-left:0;" v-else>
           <ul class="menu">
             <li
+
               v-for="(rs,index) in searchResult"
+              
               v-if="searchResult[index] !== undefined && searchResult[index].address !== undefined"
+             
               :class="activeIndex === index ? 'active' : ''"
               @click="activeIndex = index"
             >
@@ -101,7 +106,9 @@
             <li
               v-if="searchResult[1] !== undefined && searchResult[1].address !== undefined"
               v-show="activeIndex === 1">
-              <div v-if="loading" uk-spinner></div>
+              <div v-if="loading" style="width: 100%;
+                  display: flex;
+                  justify-content: center;" uk-spinner></div>
               <div class="house_info" v-else>
                 <!--
                 <div

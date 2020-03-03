@@ -72,6 +72,7 @@ var app = new Vue({
                 getAdressCoords(coords).then(e => {
                     getData(vueData.suggestedCoords, 5);
                     getData(vueData.suggestedCoords, 1);
+                    setMarker(vueData.suggestedCoords)
                 });
 
                 //console.log(vueData.suggestedCoords);
@@ -81,23 +82,18 @@ var app = new Vue({
                         let suggested_coords = `${vueData.adressSugestions[0].data.geo_lat},${vueData.adressSugestions[0].data.geo_lon}`;
                         getData(suggested_coords, 5);
                         getData(suggested_coords, 1);
+                        setMarker(suggested_coords)
                     } else if (vueData.adressSugestions.length === 0) {
                         getData(coords, 5, 0);
                         getData(coords, 1, 0);
+
                     } else if (vueData.adressSugestions.length > 1) {}
                 });
             }
         },
 
         suggestAdress: coords => {
-            if (!vueData.searchTimeOut) {
-                searchAdress(coords.target.value, 5);
-                vueData.searchTimeOut = true;
-                setTimeout(() => {
-                    vueData.searchTimeOut = false;
-                    searchAdress(coords.target.value, 5);
-                }, 1000);
-            }
+            searchAdress(coords.target.value, 5);
         },
         showSuggestWrapper: data => {
             vueData.shouldShowSuggestWrapper = !vueData.shouldShowSuggestWrapper;
@@ -165,44 +161,30 @@ var map = L.map("map", {
     layers: [pkk, openStreetMaps]
 });
 
-function onLocationFound(e) {
-    console.log(e);
-    var radius = e.accuracy;
-
-    L.marker(e.latlng)
-        .addTo(map)
-        .bindPopup("You are within " + radius + " meters from this point")
-        .openPopup();
-
-    L.circle(e.latlng, radius).addTo(map);
-}
-
-function onLocationError(e) {
-    alert(e.message);
-}
-
-map.on("locationfound", onLocationFound);
-map.on("locationerror", onLocationError);
-
 function handlePermission() {
-    navigator.permissions.query({ name: "geolocation" }).then(function(result) {
-        if (result.state == "granted") {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(e => {
-                    map.setView([e.coords.latitude, e.coords.longitude], 18);
-                });
-            } else {
-                console.log("Geolocation is not supported by this browser.");
+    try {
+        navigator.permissions.query({ name: "geolocation" }).then(function(result) {
+            if (result.state == "granted") {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(e => {
+                        map.setView([e.coords.latitude, e.coords.longitude], 18);
+                    });
+                } else {
+                    console.log("Geolocation is not supported by this browser.");
+                }
+            } else if (result.state == "prompt") {
+                report(result.state);
+            } else if (result.state == "denied") {
+                report(result.state);
             }
-        } else if (result.state == "prompt") {
-            report(result.state);
-        } else if (result.state == "denied") {
-            report(result.state);
-        }
-        result.onchange = function() {
-            report(result.state);
-        };
-    });
+            result.onchange = function() {
+                report(result.state);
+            };
+        });
+    } catch (error) {
+
+    }
+
 }
 
 function report(state) {
@@ -230,39 +212,61 @@ L.control
 
 function setMarker(coords) {
     coords = coords.split(",");
-    marker == undefined ?
-        (marker = L.marker(coords).addTo(map)) :
-        marker._map !== null ?
-        marker.setLatLng(coords) :
-        marker.addTo(map);
-    map.setView(coords);
+    if (coords.length === 2) {
+        marker == undefined ?
+            (marker = L.marker(coords).addTo(map)) :
+            marker._map !== null ?
+            marker.setLatLng(coords) :
+            marker.addTo(map);
+        map.setView(coords);
+    }
+
 }
 
 async function searchAdress(adress, count) {
-    //adress = adress.target.value;
     fd = {
         query: adress,
         count: count
     };
-    if (!vueData.searchTimeOut) {
-        await fetch(
-            "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address", {
-                method: "POST",
-                headers: {
-                    Authorization: "Token f1888befe1c3e366e2d3110c7dcccb709591a652",
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
-                body: JSON.stringify(fd)
-            }
-        ).then(response =>
-            response.json().then(adress => {
-                vueData.adressSugestions = adress.suggestions;
-                //console.log(adress.suggestions);
-                return vueData.adressSugestions;
-            })
-        );
-    }
+    // задержка между запросами 
+    !vueData.searchTimeOut ? vueData.searchTimeOut = true : await sleep(1000);
+    let adress_cur = await fetch(
+        "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address", {
+            method: "POST",
+            headers: {
+                Authorization: "Token f1888befe1c3e366e2d3110c7dcccb709591a652",
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(fd)
+        }
+    ).then(response =>
+        response.json().then(adress => {
+            vueData.adressSugestions = adress.suggestions;
+            //console.log(adress.suggestions);
+            return adress.suggestions;
+        })
+    );
+
+    return adress_cur
+}
+
+async function getAdressCoords(adress) {
+    vueData.loading = true
+    let searched_adress = await searchAdress(adress, 1).then(data => {
+        vueData.loading = false
+        let suggested_coords = `${data[0].data.geo_lat},${data[0].data.geo_lon}`;
+        vueData.suggestedCoords = suggested_coords;
+        vueData.adressSugestions = [];
+
+        return suggested_coords;
+
+    });
+    return searched_adress
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function getData(coords, type, source) {
@@ -275,7 +279,7 @@ function getData(coords, type, source) {
     vueData.openSearchBox = true;
     vueData.adressSugestions = [];
     vueData.loading = true;
-    vueData.searchResult = [];
+    //vueData.searchResult = [];
 
     let timeStamp = new Date().getTime();
 
@@ -283,17 +287,32 @@ function getData(coords, type, source) {
         `https://pkk5.rosreestr.ru/api/features/${type}?text=${coords}&tolerance=8&limit=11`
     ).then(res =>
         res.json().then(resp => {
-            map.setView(coords.split(","), 18);
+            //map.setView(coords.split(","), 18);
             if (resp.features.length > 0) {
                 resp.features !== undefined ?
                     (vueData.searchResult[type] = resp.features[0].attrs) :
                     console.log(resp);
 
+
+                vueData.searchResult[type].length !== 0 ? vueData.activeIndex = type : ''
                 vueData.searchResult.push("");
                 vueData.searchResult.pop();
 
                 if (source === 0) {
-                    getAdressCoords(resp.features[0].attrs.address);
+                    if (resp.features !== undefined) {
+                        getAdressCoords(resp.features[0].attrs.address).then((data) => {
+                            console.log(123)
+                            getData(data, 5)
+                            getData(data, 1)
+                            return
+                        }).catch(e => {
+                            console.log(e)
+                            return
+                        })
+                    }
+                }
+                if (coords !== null) {
+                    setMarker(coords)
                 }
 
                 let cn = resp.features[0].attrs.cn;
@@ -347,20 +366,7 @@ function getData(coords, type, source) {
     );
 }
 
-async function getAdressCoords(adress) {
-    searchAdress(adress, 1).then(data => {
-        console.log(data);
-        if (vueData.adressSugestions[0] === undefined) {} else {
-            let suggested_coords = `${vueData.adressSugestions[0].data.geo_lat},${vueData.adressSugestions[0].data.geo_lon}`;
-            getData(suggested_coords, 5);
-            getData(suggested_coords, 1);
-            setMarker(suggested_coords);
-            vueData.suggestedCoords = suggested_coords;
-            vueData.adressSugestions = [];
-            return suggested_coords;
-        }
-    });
-}
+
 
 document.querySelector("#searchInput").addEventListener("focus", event => {
     vueData.shouldShowSuggestWrapper = true;

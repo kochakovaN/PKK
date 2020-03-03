@@ -44,6 +44,7 @@ vueData = {
     shouldShowSuggestWrapper: true,
     searchResult: [],
     activeIndex: 1,
+    cantFind: false,
     suggestedCoords: 0,
     openSearchBox: true,
     objectTypes,
@@ -155,8 +156,8 @@ var overlays = {
 };
 
 var map = L.map("map", {
-    center: [57.016814017391106, 47.109375],
-    zoom: 5,
+    center: [55.752719, 37.617178],
+    zoom: 14,
     zoomControl: false,
     layers: [pkk, openStreetMaps]
 });
@@ -197,10 +198,10 @@ map.on("click", e => {
     let lat = e.latlng.lat;
     let lng = e.latlng.lng;
     let latlng = lat + "," + lng;
-    setMarker(latlng);
+
     getData(latlng, 1);
     getData(latlng, 5);
-    vueData.searchQuery = latlng;
+    //vueData.searchQuery = latlng;
 });
 
 L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
@@ -218,7 +219,7 @@ function setMarker(coords) {
             marker._map !== null ?
             marker.setLatLng(coords) :
             marker.addTo(map);
-        map.setView(coords);
+        map.setView(coords, 16);
     }
 
 }

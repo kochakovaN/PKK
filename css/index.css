@@ -211,6 +211,9 @@ body {
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
   border: 1px solid #ccc;
   padding: 10px 7px 10px 7px;
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
   height: 100%;
 }
 

@@ -101,6 +101,9 @@ body {
 }
 
 #search_box #suggestionWrapper {
+  position: absolute;
+  z-index: 9999;
+  width: 100%;
   max-height: 60vh;
   overflow: auto;
   background-color: white;
@@ -114,7 +117,8 @@ body {
 }
 
 #search_box #suggestionWrapper span {
-  padding: 4px 8px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #f1f1f1;
 }
 
 #search_box #suggestionWrapper span:hover {
@@ -232,7 +236,7 @@ body {
 }
 
 #search_box .search_result_container .closeButton {
-  z-index: 9999;
+  z-index: 999;
   position: absolute;
   right: 0px;
   top: 0px;

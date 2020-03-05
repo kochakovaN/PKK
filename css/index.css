@@ -177,7 +177,6 @@ body {
 
 #search_box .message-box {
   padding: 8px 16px;
-  margin-bottom: 16px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -336,5 +335,9 @@ body {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+.leaflet-tile {
+  opacity: 0.75 !important;
 }
 /*# sourceMappingURL=index.css.map */

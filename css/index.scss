@@ -140,7 +140,6 @@ body {
             margin-right: 10px;
         }
         padding: 8px 16px;
-        margin-bottom: 16px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -242,4 +241,8 @@ body {
 
 {
     opacity: 0;
+}
+
+.leaflet-tile {
+    opacity: 0.75 !important;
 }

@@ -134,13 +134,16 @@ var openStreetMaps = L.tileLayer(
 let pkk = L.tileLayer.wms(
     `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
         dpi: 96,
+
         imageSR: 102100,
         transparent: true,
         f: "image",
         size: "1024,1024",
+        updateWhenIdle: true,
         format: "PNG32",
-        bboxSR: 102100,
+        reuseTiles: true,
         tileSize: 1024,
+        style: {},
         layers: "show:0,1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,23,24,29,30,31,32,33,34,35,38,39"
     }
 );
@@ -198,6 +201,7 @@ map.on("click", e => {
     let lat = e.latlng.lat;
     let lng = e.latlng.lng;
     let latlng = lat + "," + lng;
+    console.log(map.getBounds().getWest() + "," + map.getBounds().getSouth() + "," + map.getBounds().getEast() + "," + map.getBounds().getNorth())
 
     getData(latlng, 1);
     getData(latlng, 5);

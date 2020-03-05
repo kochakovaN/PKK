@@ -139,7 +139,7 @@ let pkk = L.WMS.tileLayer(
         f: "image",
         size: "1024,1024",
         updateWhenIdle: true,
-        format: "PNG32",
+        format: "PNG8",
         reuseTiles: true,
         tileSize: 1024,
         opacity: 0.8,
@@ -335,7 +335,7 @@ function getData(coords, type, source) {
                             transparent: true,
                             f: "image",
                             layers: "show:5",
-                            format: "PNG32",
+                            format: "PNG16",
                             styles: 'boxfill/alg',
                             bboxSR: 102100,
                             opacity: 0.6,
@@ -350,8 +350,7 @@ function getData(coords, type, source) {
 
 
 
-                fetch(`
-                            https: //reestr.cloud/getInfByCadnomer?cadnomer=${cn}&mapKey=RGRNHdwhIrjhrthbg8392djfghg24452m2-GHJLPRST`).then(info => {
+                fetch(`https://reestr.cloud/getInfByCadnomer?cadnomer=${cn}&mapKey=RGRNHdwhIrjhrthbg8392djfghg24452m2-GHJLPRST`).then(info => {
                     info.json().then(info => {
                         vueData.loading = false;
                         if (info.result !== false) {

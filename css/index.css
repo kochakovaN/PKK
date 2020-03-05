@@ -340,4 +340,10 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
+
+.filter {
+  opacity: 0.5;
+  -webkit-filter: hue-rotate(70deg) brightness(100%) saturate(175%);
+          filter: hue-rotate(70deg) brightness(100%) saturate(175%);
+}
 /*# sourceMappingURL=index.css.map */

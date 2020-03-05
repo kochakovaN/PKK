@@ -246,3 +246,8 @@ body {
 {
     opacity: 0;
 }
+
+.filter {
+    opacity: 0.5;
+    filter: hue-rotate(70deg) brightness(100%) saturate(175%);
+}

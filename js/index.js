@@ -130,6 +130,7 @@ var openStreetMaps = L.tileLayer(
             subdomains: ["mt0", "mt1", "mt2", "mt3"]
         }
     );
+
 let pkk = L.WMS.tileLayer(
     `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
         dpi: 92,
@@ -146,6 +147,8 @@ let pkk = L.WMS.tileLayer(
         layers: "show:0,1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,23,24,29,30,31,32,33,34,35,38,39"
     }
 );
+
+
 var baseLayers = {
     OSM: openStreetMaps,
     //ЯндексКарта: yandexMap,
@@ -161,8 +164,10 @@ var map = L.map("map", {
     center: [55.752719, 37.617178],
     zoom: 14,
     zoomControl: false,
-    layers: [pkk, openStreetMaps]
+    layers: [pkk, twoGis]
 });
+
+
 
 function handlePermission() {
     try {
@@ -222,7 +227,8 @@ function setMarker(coords) {
             marker._map !== null ?
             marker.setLatLng(coords) :
             marker.addTo(map);
-        map.setView(coords, 16);
+        let zoom = map._zoom > 18 ? map._zoom : 18
+        map.setView(coords, zoom);
     }
 
 }
@@ -345,6 +351,8 @@ function getData(coords, type, source) {
                     );
                     formLayer.addTo(map);
                     formLayer.setZIndex(9);
+                    let formLayerContainer = formLayer.getContainer()
+                    formLayerContainer.classList.add('filter')
                 }
 
 

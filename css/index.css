@@ -340,8 +340,4 @@ body {
 .fade-leave-to {
   opacity: 0;
 }
-
-.leaflet-tile {
-  opacity: 0.75 !important;
-}
 /*# sourceMappingURL=index.css.map */

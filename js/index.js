@@ -130,10 +130,9 @@ var openStreetMaps = L.tileLayer(
             subdomains: ["mt0", "mt1", "mt2", "mt3"]
         }
     );
-
-let pkk = L.tileLayer.wms(
+let pkk = L.WMS.tileLayer(
     `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
-        dpi: 96,
+        dpi: 92,
 
         imageSR: 102100,
         transparent: true,
@@ -143,7 +142,7 @@ let pkk = L.tileLayer.wms(
         format: "PNG32",
         reuseTiles: true,
         tileSize: 1024,
-        style: {},
+        opacity: 0.8,
         layers: "show:0,1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,23,24,29,30,31,32,33,34,35,38,39"
     }
 );
@@ -327,8 +326,9 @@ function getData(coords, type, source) {
                     cn[index] = parseInt(cn[index], 10);
                 });
                 cn = cn.join(":");
+
                 if (type === 5) {
-                    formLayer = L.tileLayer.wms(
+                    formLayer = L.WMS.tileLayer(
                         "https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/CadastreSelected/MapServer/export?", {
                             dpi: 96,
                             imageSR: 102100,
@@ -336,7 +336,10 @@ function getData(coords, type, source) {
                             f: "image",
                             layers: "show:5",
                             format: "PNG32",
+                            styles: 'boxfill/alg',
                             bboxSR: 102100,
+                            opacity: 0.6,
+
                             layerDefs: JSON.stringify({ "5": "ID = '" + cn + "'" })
                         }
                     );
@@ -347,7 +350,8 @@ function getData(coords, type, source) {
 
 
 
-                fetch(`https://reestr.cloud/getInfByCadnomer?cadnomer=${cn}&mapKey=RGRNHdwhIrjhrthbg8392djfghg24452m2-GHJLPRST`).then(info => {
+                fetch(`
+                            https: //reestr.cloud/getInfByCadnomer?cadnomer=${cn}&mapKey=RGRNHdwhIrjhrthbg8392djfghg24452m2-GHJLPRST`).then(info => {
                     info.json().then(info => {
                         vueData.loading = false;
                         if (info.result !== false) {
@@ -367,8 +371,7 @@ function getData(coords, type, source) {
                 vueData.loading = false;
                 vueData.searchResult[type] = result;
             }
-        })
-    );
+        }));
 }
 
 

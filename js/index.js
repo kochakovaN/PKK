@@ -131,22 +131,41 @@ var openStreetMaps = L.tileLayer(
         }
     );
 
-let pkk = L.WMS.tileLayer(
-    `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
-        dpi: 92,
+let pkkOptions = {
+    dpi: 98,
 
-        imageSR: 102100,
-        transparent: true,
-        f: "image",
-        size: "1024,1024",
-        updateWhenIdle: true,
-        format: "PNG8",
-        reuseTiles: true,
-        tileSize: 1024,
-        opacity: 0.8,
-        layers: "show:0,1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,23,24,29,30,31,32,33,34,35,38,39"
+    imageSR: 102100,
+    transparent: true,
+    f: "image",
+    size: "1024,1024",
+    updateWhenIdle: true,
+    format: "PNG8",
+    reuseTiles: true,
+    tileSize: 1024,
+    opacity: 0.9,
+}
+
+let pkkLand = L.WMS.tileLayer(
+    `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
+        ...pkkOptions,
+        layers: "show:23,22,24,36,37"
     }
 );
+
+let pkkkap = L.WMS.tileLayer(
+    `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
+        ...pkkOptions,
+        layers: "show:31,29,30,38,32,34,39,33,35"
+    }
+);
+
+let pkkUnits = L.WMS.tileLayer(
+    `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
+        ...pkkOptions,
+        layers: "show:0,8,17"
+    }
+);
+
 
 
 var baseLayers = {
@@ -157,15 +176,19 @@ var baseLayers = {
 };
 
 var overlays = {
-    "Публичная кадастровая карта": pkk
+    "Объекты капитального стросительства": pkkkap,
+    "Земельные участки": pkkLand,
+    "Единицы кадастрового деления": pkkUnits,
 };
 
 var map = L.map("map", {
     center: [55.752719, 37.617178],
     zoom: 14,
     zoomControl: false,
-    layers: [pkk, twoGis]
+    layers: [pkkkap, pkkLand, pkkUnits, twoGis]
 });
+
+
 
 
 

@@ -43,7 +43,7 @@
         class="search_result_container"
         uk-tab
         >
-        <div class="closeButton">
+        <div v-show="Object.entries(searchResult).length !== 0" class="closeButton">
           <span v-on:click="() => {searchQuery='';searchResult=[]}"
             ><i class="material-icons">close</i></span
             >

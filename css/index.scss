@@ -3,6 +3,14 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
     font-size: 12px;
+    padding: 0;
+}
+
+html,
+body,
+#map {
+    height: 100%;
+    width: 100vw;
 }
 
 #map {
@@ -107,6 +115,9 @@ body {
         li:first-child {
             border-right: 1px solid #dcdfe6;
         }
+        li:only-child {
+            border-right: none
+        }
         li {
             flex: 1;
             justify-content: center;
@@ -136,8 +147,7 @@ body {
         overflow: auto;
         overflow-x: hidden;
         padding: 0px;
-        max-width: 90%;
-        padding: 15px;
+        padding: 15px 10px;
     }
     .message-box {
         i {
@@ -165,6 +175,7 @@ body {
     .search_result_container {
         padding: 7px 4px;
         margin-top: 10px;
+        margin-bottom: 0px;
         margin-left: 0;
         display: flex;
         border-radius: 0px;
@@ -197,6 +208,9 @@ body {
             flex-direction: row;
             justify-content: space-between;
             .egrnButton {
+                position: absolute;
+                bottom: 10px;
+                right: 30px;
                 color: white;
                 background-color: orange;
                 border: 1px solid rgb(255, 137, 0);

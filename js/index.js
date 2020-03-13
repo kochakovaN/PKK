@@ -62,7 +62,7 @@ var app = new Vue({
     data: vueData,
     methods: {
         inputChanged: (coords, suggested) => {
-            
+
             vueData.loading = true
             coords.target.value === undefined ?
                 (coords.target.value = coords.target.innerText) :
@@ -71,7 +71,7 @@ var app = new Vue({
 
             coords = coords.target.value;
 
-            if(coords.length > 2000){
+            if (coords.length > 2000) {
                 return
             }
 
@@ -92,23 +92,23 @@ var app = new Vue({
                         setMarker(suggested_coords)
                     } else if (vueData.adressSugestions.length === 0) {
                         this.loading = true
-                        searchByCadNumber(coords,5).then(result => {
+                        searchByCadNumber(coords, 5).then(result => {
                             if (result && result.result !== false) {
                                 vueData.searchResult[1] = {};
                                 vueData.searchResult[5] = result;
                                 vueData.activeIndex = 5
                                 vueData.searchResult.push("")
                                 vueData.searchResult.pop("")
-                                getAdressCoords(result.address).then(addres_coords =>{
+                                getAdressCoords(result.address).then(addres_coords => {
                                     setMarker(addres_coords)
                                 })
-                               
-                            }else{
+
+                            } else {
                                 vueData.searchResult[1] = {};
                                 vueData.searchResult[5] = {};
                             }
-                            
-                            
+
+
                         })
 
                     } else if (vueData.adressSugestions.length > 1) {}
@@ -117,7 +117,7 @@ var app = new Vue({
         },
 
         suggestAdress: coords => {
-            if(coords.target.value.length > 100){
+            if (coords.target.value.length > 100) {
                 return
             }
             searchAdress(coords.target.value, 5);
@@ -384,12 +384,12 @@ function getData(coords, type, source) {
 
 
 
-                searchByCadNumber(cn,type).then(result=>{
+                searchByCadNumber(cn, type).then(result => {
                     if (result && result.result !== false) {
                         vueData.searchResult[type] = result;
                     }
                 })
-                
+
             } else {
                 vueData.loading = false;
                 vueData.searchResult[type] = result;
@@ -400,8 +400,9 @@ function getData(coords, type, source) {
 
 
 
-async function searchByCadNumber(cn,type){
-
+async function searchByCadNumber(cn, type) {
+    vueData.moreInfo[1] = false
+    vueData.moreInfo[5] = false
     if (type === 5) {
         formLayer = L.WMS.tileLayer(
             "https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/CadastreSelected/MapServer/export?", {
@@ -425,15 +426,14 @@ async function searchByCadNumber(cn,type){
     }
 
     let res = await fetch("https://reestr.cloud/getInfByCadnomer?cadnomer=".concat(cn, "&mapKey=RGRNHdwhIrjhrthbg8392djfghg24452m2-GHJLPRST"))
-    .then(async info => {
-        let result = await info.json()
-        vueData.loading = false;
-        return result  
-        }
-      ).catch(function (e) {
-        vueData.loading = false;
-        return false
-      })
-  
+        .then(async info => {
+            let result = await info.json()
+            vueData.loading = false;
+            return result
+        }).catch(function(e) {
+            vueData.loading = false;
+            return false
+        })
+
     return res
-  }
+}

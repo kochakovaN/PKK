@@ -278,16 +278,86 @@ $gray: #9b9b9b;
     position: relative;
     padding: 15px 0 0;
     margin-top: 10px;
-    width: 50%;
+    
+}
+
+.circle-icon{
+    color: #f7c242;
+    justify-self: center;
+    align-self: center;
+    font-size: 19px;
+    margin: 0;
+    padding: 0;
+    margin-right: 5px;
+}
+.warning-container{
+    background: #f4f0e7;color:#946e3d;align-self: flex-end;margin-right: 10px;display: flex;align-items: center;    padding: 5px 8px;
+}
+.circle-icon-container{
+    display: flex;
+    align-items: center;
+}
+.egrnTypeContainer{
+    display: flex;
+    background-color: #f8f9fb;
+    flex-direction: column;
+    padding: 8px 4px;
+    input{
+        
+    }
+   
+    .egrnTypeItem{
+        display: flex;
+        align-items: center;
+    }
+    .egrnTypeLabel{
+        justify-content: space-between;
+        display: flex;
+        //background: #dedede;;
+        width: 100px;
+        span{
+            padding: 5px;
+        }
+        color: black;
+        width: 100%;
+        
+    
+    }
+    input:checked + label {
+        //background-color: #1e87f0;
+        //color: white;
+    }
+    input~label{cursor:pointer;}
+
+    label:checked{
+       // background: #000;
+    }
+    
+}
+.errorMessage{
+    padding: 10px 0px;
+    color: #F44336;
+}
+.egrnTypeFooter{
+    display: flex;
+    justify-content: space-between;
+}
+.leaflet-custom-bar{
+    background: white;
+    font-size: 26px;
+    &:hover{
+        cursor: pointer;
+        background-color: #f4f4f4;
+    }
 }
 
 .form__field {
     font-family: inherit;
     width: 100%;
     border: 0;
-    border-bottom: 2px solid $gray;
+    border-bottom: 1px solid $gray;
     outline: 0;
-    font-size: 1.3rem;
+    //font-size: 1.3rem;
     color: $white;
     padding: 7px 0;
     background: transparent;
@@ -296,7 +366,7 @@ $gray: #9b9b9b;
         color: transparent;
     }
     &:placeholder-shown~.form__label {
-        font-size: 1.3rem;
+        font-size: 110%;
         cursor: text;
         top: 20px;
     }
@@ -307,7 +377,7 @@ $gray: #9b9b9b;
     top: 0;
     display: block;
     transition: 0.2s;
-    font-size: 1rem;
+    //font-size: 1rem;
     color: $gray;
 }
 
@@ -317,7 +387,7 @@ $gray: #9b9b9b;
         top: 0;
         display: block;
         transition: 0.2s;
-        font-size: 1rem;
+        //font-size: 1rem;
         color: $primary;
         font-weight: 700;
     }

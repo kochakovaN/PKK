@@ -52,6 +52,15 @@ vueData = {
         1: false,
         5: false
     },
+    ordering:{
+        checkedOrdering:[],
+        name:"",
+        errorMessage:"",
+        phone:'',
+        email:'',
+        response:{},
+    },
+    
     searchQuery: "",
     loading: false,
     searchTimeOut: false
@@ -61,6 +70,21 @@ var app = new Vue({
     el: "#search_box",
     data: vueData,
     methods: {
+        sendPayingData: () =>{
+            let cadnum = vueData.searchResult[vueData.activeIndex].cadnum ? vueData.searchResult[vueData.activeIndex].cadnum : vueData.searchResult[vueData.activeIndex].cn
+            let order = vueData.ordering
+            if(order.email && order.phone && order.checkedOrdering){
+                fetch(`https://reestr.cloud/createOrder?mapKey=11&email=${order.email}&phone=${order.phone}&cadnomer=${cadnum}&doc_type=${order.checkedOrdering.join('-')}`).then(async resp =>{
+                    let result = await resp.json()
+                    vueData.ordering.errorMessage = ''
+                    vueData.ordering.response = result
+                }).catch(e =>{
+                    vueData.ordering.errorMessage = e
+                })
+            }else{
+                vueData.ordering.errorMessage = 'Не все поля заполнены' 
+            }
+        },
         inputChanged: (coords, suggested) => {
 
             vueData.loading = true
@@ -172,21 +196,21 @@ let pkkOptions = {
 }
 
 let pkkLand = L.WMS.tileLayer(
-    `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
+    `https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/Cadastre/MapServer/export?`, {
         ...pkkOptions,
         layers: "show:23,22,24,36,37"
     }
 );
 
 let pkkkap = L.WMS.tileLayer(
-    `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
+    `https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/Cadastre/MapServer/export?`, {
         ...pkkOptions,
         layers: "show:31,29,30,38,32,34,39,33,35"
     }
 );
 
 let pkkUnits = L.WMS.tileLayer(
-    `https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?`, {
+    `https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/Cadastre/MapServer/export?`, {
         ...pkkOptions,
         layers: "show:0,8,17"
     }
@@ -209,11 +233,54 @@ var overlays = {
 
 var map = L.map("map", {
     center: [55.752719, 37.617178],
+    
     zoom: 14,
     zoomControl: false,
     layers: [pkkkap, pkkLand, pkkUnits, twoGis]
 });
 
+map.addControl(new L.Control.Fullscreen({position: "bottomright"}))
+
+
+L.control.custom({
+    position: 'bottomright',
+    content : '<i  class="material-icons leaflet-custom-bar leaflet-bar " > print </i>',
+    classes : 'btn-group-vertical btn-group-sm',
+    style   :
+    {
+        margin: '10px',
+        padding: '0px 0 0 0',
+        cursor: 'pointer',
+    },
+    datas   :
+    {
+        'foo': 'bar',
+    },
+    events:
+    {
+        click: function(data)
+        {
+            vueData.moreInfo[1] = true
+            vueData.moreInfo[5] = true
+            setTimeout(() => {
+                window.print() 
+            }, 500);
+            
+            
+        },
+        dblclick: function(data)
+        {
+            console.log('wrapper div element dblclicked');
+            console.log(data);
+        },
+        contextmenu: function(data)
+        {
+            console.log('wrapper div element contextmenu');
+            console.log(data);
+        },
+    }
+})
+.addTo(map);
 
 
 
@@ -343,7 +410,8 @@ function getData(coords, type, source) {
     let timeStamp = new Date().getTime();
 
     fetch(
-        `https://pkk5.rosreestr.ru/api/features/${type}?text=${coords}&tolerance=8&limit=11`
+        `https://pkk.rosreestr.ru/api/features/${type}?_=1584461211208&text=${coords}&limit=40&skip=0&inPoint=true`
+        
     ).then(res =>
         res.json().then(resp => {
             //map.setView(coords.split(","), 18);
@@ -405,7 +473,7 @@ async function searchByCadNumber(cn, type) {
     vueData.moreInfo[5] = false
     if (type === 5) {
         formLayer = L.WMS.tileLayer(
-            "https://pkk5.rosreestr.ru/arcgis/rest/services/Cadastre/CadastreSelected/MapServer/export?", {
+            "https://pkk.rosreestr.ru/arcgis/rest/services/PKK6/CadastreSelected/MapServer/export?", {
                 dpi: 96,
                 imageSR: 102100,
                 transparent: true,

@@ -1,0 +1,13 @@
+@media print {
+    .leaflet-control,#search_input_container,.message-box,.egrnTypeContainer,.footer{
+        display: none!important;
+    }
+    .search_result_container{
+        background: white!important;
+        max-height: null;
+    }
+    @page {
+        size:landscape;
+    }
+
+}

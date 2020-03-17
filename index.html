@@ -2,179 +2,197 @@
 <html lang="ru">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Карта</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <!-- UIkit CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css" />
-    <link rel="stylesheet" href="css/index.css?v1.4" />
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-    <script defer src="js/index.js?v1.9"></script>
-    <!-- UIkit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
-    <!-- Leaflet's -->
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-    <script src="js/leaflet.wms.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Карта</title>
+  <link rel="stylesheet" href="css/print.css">
+  <link rel="stylesheet" href="css/leaflet.fullscreen.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin="" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/css/uikit.min.css" />
+  <link rel="stylesheet" href="css/index.css?v1.4" />
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <script defer src="js/index.js?v1.9"></script>
+  <!-- UIkit JS -->
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.3.1/dist/js/uikit-icons.min.js"></script>
+  <!-- Leaflet's -->
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
+  <script src="js/Leaflet.fullscreen.min.js"></script>
+  <script src="js/Leaflet.Control.Custom.js"></script>
+  <script src="js/leaflet.wms.js"></script>
 </head>
 
 <body>
-    <div id="search_box">
-        <div>
-            <div style="display:flex;">
-                <div class="input-container">
-                    <input placeholder="Введите адрес или кадастровый номер" autocomplete="address-level4" v-model="searchQuery" type="search" name="" id="searchInput" @input="suggestAdress" @change="inputChanged" />
-                </div>
-                <span @click="inputChanged({target:{
+  <div id="search_box">
+    <div id="search_input_container">
+      <div style="display:flex;">
+        <div class="input-container">
+          <input placeholder="Введите адрес или кадастровый номер" autocomplete="address-level4" v-model="searchQuery"
+            type="search" name="" id="searchInput" @input="suggestAdress" @change="inputChanged" />
+        </div>
+        <span @click="inputChanged({target:{
                               value:searchQuery
                               }})" class="button search_button">Искать</span>
-            </div>
-            <div v-show="shouldShowSuggestWrapper" id="suggestionWrapper">
-                <span class="suggestionItem" v-for="(adress,index) in adressSugestions" v-on:click="(e) =>{searchQuery=adress.value;inputChanged(e,true)}" :value="adress.value">{{adress.value}}</span>
-            </div>
-        </div>
-        <ul v-show="openSearchBox" class="search_result_container" uk-tab>
-            <div v-show="Object.entries(searchResult).length !== 0" class="closeButton">
-                <span v-on:click="() => {searchQuery='';searchResult=[]}"><i class="material-icons">close</i></span>
-            </div>
-            <span v-if="Object.entries(searchResult).length === 0" class="uk-text-meta message-box">
+      </div>
+      <div v-show="shouldShowSuggestWrapper" id="suggestionWrapper">
+        <span class="suggestionItem" v-for="(adress,index) in adressSugestions"
+          v-on:click="(e) =>{searchQuery=adress.value;inputChanged(e,true)}"
+          :value="adress.value">{{adress.value}}</span>
+      </div>
+    </div>
+    <ul v-show="openSearchBox" class="search_result_container" uk-tab>
+      <div v-show="Object.entries(searchResult).length !== 0" class="closeButton">
+        <span v-on:click="() => {searchQuery='';searchResult=[]}"><i class="material-icons">close</i></span>
+      </div>
+      <span v-if="Object.entries(searchResult).length === 0" class="uk-text-meta message-box">
         <i class="material-icons">
           info
         </i>
         Нажмите на любой объект, чтобы получить информацию о нем
       </span>
 
-            <div v-else-if="loading" style="width: 100%;
+      <div v-else-if="loading" style="width: 100%;
                       display: flex;
                       justify-content: center;">
-                <lottie-player src="media/lottie-loader.json" background="transparent" speed="2" style="width: 200px; height: 200px;" loop="" autoplay="">
-                </lottie-player>
-            </div>
-            <div style="width:100%;padding-left:0;margin-left: 0;" v-else>
-                <ul class="menu">
-                    <li v-for="(rs,index) in searchResult" v-if="searchResult[index] !== undefined && searchResult[index].address !== undefined" :class="activeIndex === index ? 'active' : ''" @click="activeIndex = index">
-                        <a href="#">
-                            <i class="material-icons"> {{objectTypes[index].icon}} </i>
-                            <span>{{objectTypes[index].title}}</span></a>
-                    </li>
-                </ul>
-                <ul class="uk-margin info-box">
-                    <li v-if="searchResult[1] !== undefined && searchResult[1].address !== undefined" v-show="activeIndex === 1">
-                        <div class="house_info">
-                            <div class="info-item">
-                                <span class="key">
+        <lottie-player src="media/lottie-loader.json" background="transparent" speed="2"
+          style="width: 200px; height: 200px;" loop="" autoplay="">
+        </lottie-player>
+      </div>
+      <div style="width:100%;padding-left:0;margin-left: 0;" v-else>
+        <ul class="menu">
+          <li v-for="(rs,index) in searchResult"
+            v-if="searchResult[index] !== undefined && searchResult[index].address !== undefined"
+            :class="activeIndex === index ? 'active' : ''" @click="activeIndex = index">
+            <a href="#">
+              <i class="material-icons"> {{objectTypes[index].icon}} </i>
+              <span>{{objectTypes[index].title}}</span></a>
+          </li>
+        </ul>
+        <ul class="uk-margin info-box">
+          <li v-if="searchResult[1] !== undefined && searchResult[1].address !== undefined" v-show="activeIndex === 1">
+            <div class="house_info">
+              <div class="info-item">
+                <span class="key">
                   Кад.номер
                 </span>
-                                <span class="value">
+                <span class="value">
                   {{searchResult[1].cadnum === undefined ? searchResult[1].cn : searchResult[1].cadnum}}
                 </span>
-                            </div>
-                            <div class="info-item">
-                                <span class="key">
+              </div>
+              <div class="info-item">
+                <span class="key">
                   Адрес
                 </span>
-                                <span class="value">
+                <span class="value">
                   {{ searchResult[1].address}}
                 </span>
-                            </div>
-                            <div v-if="searchResult[1].area !== undefined" class="info-item">
-                                <span class="key">
+              </div>
+              <div v-if="searchResult[1].area !== undefined" class="info-item">
+                <span class="key">
                   Общая площадь
                 </span>
-                                <span class="value">
+                <span class="value">
                   {{searchResult[1].area}} ({{searchResult[1].unit}})
                 </span>
-                            </div>
-                            <div class="more_info" v-if="moreInfo[1]">
-                                <div v-if="searchResult[1].cadastrial_cost !== undefined" class="info-item">
-                                    <span class="key">
+              </div>
+              <div class="more_info" v-if="moreInfo[1]">
+                <div v-if="searchResult[1].cadastrial_cost !== undefined" class="info-item">
+                  <span class="key">
                     Кадастровая стоимость
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[1].cadastrial_cost + " руб."}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[1].status !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[1].status !== undefined" class="info-item">
+                  <span class="key">
                     Статус
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[1].status}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[1].oks_type !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[1].oks_type !== undefined" class="info-item">
+                  <span class="key">
                     Назначение
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[1].oks_type}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[1].category !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[1].category !== undefined" class="info-item">
+                  <span class="key">
                     Категория земель
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[1].category}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[1].allowed_use !== undefined && searchResult[1].allowed_use !== '' " class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[1].allowed_use !== undefined && searchResult[1].allowed_use !== '' "
+                  class="info-item">
+                  <span class="key">
                     Тип разрешенного использования
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[1].allowed_use}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[1].ownersheep_type !== undefined && searchResult[1].ownersheep_type !== '' " class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[1].ownersheep_type !== undefined && searchResult[1].ownersheep_type !== '' "
+                  class="info-item">
+                  <span class="key">
                     Форма собственности
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[1].ownersheep_type}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[1].registration_date !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[1].registration_date !== undefined" class="info-item">
+                  <span class="key">
                     Постановка на учет
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[1].registration_date}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[1].cad_eng_data !== undefined,null" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[1].cad_eng_data !== undefined,null" class="info-item">
+                  <span class="key">
                     Кадастровый инженер
                   </span>
-                                    <span>
+                  <span>
                     {{searchResult[1].cad_eng_data.ci_surname}}
                     {{searchResult[1].cad_eng_data.ci_first}}
                     {{searchResult[1].cad_eng_data.ci_patronymic}}</span>
-                                </div>
-                                <div v-if="searchResult[1].elements_constuct !== undefined,null" class="info-item">
-                                    <span class="key">Материал стен</span>
-                                    <span class="value">{{searchResult[1].elements_constuct[0].wall}}</span>
-                                </div>
-                            </div>
-                            <div class="footer"><span @click="moreInfo[1] = !moreInfo[1]" class="button more_info_button">
+                </div>
+                <div v-if="searchResult[1].elements_constuct !== undefined,null" class="info-item">
+                  <span class="key">Материал стен</span>
+                  <span class="value">{{searchResult[1].elements_constuct[0].wall}}</span>
+                </div>
+              </div>
+              <div class="footer"><span @click="moreInfo[1] = !moreInfo[1]" class="button more_info_button">
                   <i class="material-icons">
                     {{!moreInfo[1] ? "arrow_drop_down" : "arrow_drop_up"}}
                   </i>
                   {{!moreInfo[1] ? "Больше информации" : "Скрыть информацию"}}
                 </span>
-                                <a class="button egrnButton" target="_blank" :href="'https://ruegrn.info/egrn?query='+searchResult[1].cn"><i
-                    class="material-icons">check</i><span>Получить выписку</span></a>
-                            </div>
-                        </div>
-                    </li>
-                    <li v-if="searchResult[5] !== undefined && searchResult[5].address !== undefined" v-show="activeIndex === 5">
+                <a class="button egrnButton" target="_blank" href="#modal-example" uk-toggle><i
+                    class="material-icons">check</i>
+                  <span>Получить выписку</span>
+                </a>
+              </div>
+            </div>
+          </li>
+          <li v-if="searchResult[5] !== undefined && searchResult[5].address !== undefined" v-show="activeIndex === 5">
 
-                        <div class="house_info">
-                            <!--
+            <div class="house_info">
+              <!--
                   <div
                     v-for="(res,key) in  searchResult[5]"
                     v-if="res !== null && key !=
@@ -189,169 +207,211 @@
                     <span class="value">{{res}}</span>
                   </div>
                   -->
-                            <div class="info-item">
-                                <span class="key">
+              <div class="info-item">
+                <span class="key">
                   Кад.номер
                 </span>
-                                <span class="value">
+                <span class="value">
                   {{searchResult[5].cadnum === undefined ? searchResult[5].cn : searchResult[5].cadnum}}
                 </span>
-                            </div>
-                            <div class="info-item">
-                                <span class="key">
+              </div>
+              <div class="info-item">
+                <span class="key">
                   Адрес
                 </span>
-                                <span class="value">
+                <span class="value">
                   {{searchResult[5].address}}
                 </span>
-                            </div>
-                            <div v-if="searchResult[1].area !== undefined" class="info-item">
-                                <span class="key">
+              </div>
+              <div v-if="searchResult[1].area !== undefined" class="info-item">
+                <span class="key">
                   Общая площадь
                 </span>
-                                <span class="value">
+                <span class="value">
                   {{searchResult[5].area}} ({{searchResult[5].unit}})
                 </span>
-                            </div>
-                            <div class="more_info" v-show="moreInfo[5]">
-                                <div v-if="searchResult[5].cadastrial_cost !== undefined" class="info-item">
-                                    <span class="key">
+              </div>
+              <div class="more_info" v-show="moreInfo[5]">
+                <div v-if="searchResult[5].cadastrial_cost !== undefined" class="info-item">
+                  <span class="key">
                     Кадастровая стоимость
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].cadastrial_cost + " руб."}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[5].status !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[5].status !== undefined" class="info-item">
+                  <span class="key">
                     Статус
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].status}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[5].obj_type !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[5].obj_type !== undefined" class="info-item">
+                  <span class="key">
                     Тип
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].obj_type}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[5].oks_type !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[5].oks_type !== undefined" class="info-item">
+                  <span class="key">
                     Тип ОКС
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].oks_type}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[5].floors_cnt !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[5].floors_cnt !== undefined" class="info-item">
+                  <span class="key">
                     Общая этажность
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].floors_cnt}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[5].undergroud_floors !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[5].undergroud_floors !== undefined" class="info-item">
+                  <span class="key">
                     Подземная этажность
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].undergroud_floors}}
                   </span>
-                                </div>
-                                <div v-if="searchResult[5].cad_eng_data !== undefined && searchResult[5].cad_eng_data !== null" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[5].cad_eng_data !== undefined && searchResult[5].cad_eng_data !== null"
+                  class="info-item">
+                  <span class="key">
                     Кадастровый инженер
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].cad_eng_data.ci_surname}}
                     {{searchResult[5].cad_eng_data.ci_first}}
                     {{searchResult[5].cad_eng_data.ci_patronymic}}</span>
-                                </div>
-                                <div v-if="searchResult[5].walls_material !== undefined" class="info-item">
-                                    <span class="key">Материал стен</span>
-                                    <span class="value">{{searchResult[5].walls_material}}</span>
-                                </div>
+                </div>
+                <div v-if="searchResult[5].walls_material !== undefined" class="info-item">
+                  <span class="key">Материал стен</span>
+                  <span class="value">{{searchResult[5].walls_material}}</span>
+                </div>
 
-                                <div v-if="searchResult[5].construction_end !== undefined" class="info-item">
-                                    <span class="key">Завершение строительства</span>
-                                    <span class="value">{{searchResult[5].construction_end}}</span>
-                                </div>
+                <div v-if="searchResult[5].construction_end !== undefined" class="info-item">
+                  <span class="key">Завершение строительства</span>
+                  <span class="value">{{searchResult[5].construction_end}}</span>
+                </div>
 
-                                <div v-if="searchResult[5].exploitation_start !== undefined" class="info-item">
-                                    <span class="key">
+                <div v-if="searchResult[5].exploitation_start !== undefined" class="info-item">
+                  <span class="key">
                     Ввод в эксплуатацию
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].exploitation_start}}
 
                   </span>
-                                </div>
-                                <div v-if="searchResult[5].registration_date !== undefined" class="info-item">
-                                    <span class="key">
+                </div>
+                <div v-if="searchResult[5].registration_date !== undefined" class="info-item">
+                  <span class="key">
                     Постановка на учет
                   </span>
-                                    <span class="value">
+                  <span class="value">
                     {{searchResult[5].registration_date}}
                   </span>
-                                </div>
-                            </div>
-                            <div class="footer"><span @click="moreInfo[5] = !moreInfo[5]" href="" class="button more_info_button">
+                </div>
+              </div>
+              <div class="footer"><span @click="moreInfo[5] = !moreInfo[5]" href="" class="button more_info_button">
                   <i
                     class="material-icons">{{!moreInfo[5] ? "arrow_drop_down" : "arrow_drop_up"}}</i>{{!moreInfo[5] ? "Больше информации" : "Скрыть информацию"}}
                 </span>
-                                <a class="button egrnButton" target="_blank" href="#modal-example" uk-toggle><i class="material-icons">check</i>
-                              <span>Получить выписку</span>
-                          </a>
-                            </div>
-                        </div>
-
-
-
-                    </li>
-                    <div v-if="searchResult[1] !== undefined && searchResult[5] !== undefined">
-                        <div v-if="searchResult[1].address === undefined && searchResult[5].address === undefined">
-                            Ничего не найдено
-                        </div>
-                    </div>
-                </ul>
-
+                <a class="button egrnButton" target="_blank" href="#modal-example" uk-toggle><i
+                    class="material-icons">check</i>
+                  <span>Получить выписку</span>
+                </a>
+              </div>
             </div>
+
+
+
+          </li>
+          <div v-if="searchResult[1] !== undefined && searchResult[5] !== undefined">
+            <div v-if="searchResult[1].address === undefined && searchResult[5].address === undefined">
+              Ничего не найдено
+            </div>
+          </div>
         </ul>
-        <datalist id="suggestions_list">
+
+      </div>
+    </ul>
+    <datalist id="suggestions_list">
       <option v-for="suggestions in adressSugestions" :value="suggestions.value">{{suggestions.value}}</option>
     </datalist>
-        <div id="modal-example" uk-modal>
-            <div id="payForEgrnContainer" class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">Получить выписку</h2>
-                <div class="form__group field">
-                    <input type="input" :value="searchResult[activeIndex] ? searchResult[activeIndex].cn : ''" class="form__field" placeholder="cn" name="cn" id='cn' required />
-                    <label for="cn" class="form__label">Кадастровый номер</label>
-                </div>
-                <div class="form__group field">
-                    <input type="input" class="form__field" placeholder="ФИО" name="ФИО" id='name' required />
-                    <label for="name" class="form__label">ФИО</label>
-                </div>
-                <div class="form__group field">
-                    <input type="email" class="form__field" placeholder="email" name="email" id='email' required />
-                    <label for="email" class="form__label">Почта</label>
-                </div>
-                <div class="form__group field">
-                    <input type="input" class="form__field" placeholder="phone" name="phone" id='phone' required />
-                    <label for="phone" class="form__label">Номер телефона</label>
-                </div>
+    <div id="modal-example" uk-modal>
 
-
-                <p class="uk-text-right">
-                    <button class="uk-button uk-button-primary" type="button">Оплатить заказ</button>
-                </p>
-            </div>
+      <div class="uk-modal-dialog uk-modal-body">
+        <div v-if="Object.keys(ordering.response).length > 0">         
+           <h2 class="uk-modal-title">Заказ № {{ordering.response.orderid}}</h2>
+            
+          <p class="egrnTypeFooter">
+            <button @click="ordering.response = {}" class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
+            <a target="_blank" :href="ordering.response.payment_link" class="uk-button uk-button-primary" type="button">Оплатить заказ на {{ordering.response.price}} руб.</a>
+          </p>
         </div>
+        <div v-else id="payForEgrnContainer">
+          <h2 class="uk-modal-title">Получить выписку</h2>
+          <span v-if="ordering.errorMessage" class="errorMessage">{{ordering.errorMessage}}</span>
+          <div style="display: flex;flex-direction: column-reverse;">
+            <form action="" style="flex: 1 1 0%;
+            grid-gap: 10px;
+            display: grid;
+            /* width: 50%; */
+            display: grid;
+            flex-direction: row;
+            grid-template-columns: 1fr 1fr;">
+              <div class="form__group field">
+                <input type="input"
+                  :value="searchResult[activeIndex] ? searchResult[vueData.activeIndex].cadnum ? searchResult[vueData.activeIndex].cadnum : searchResult[vueData.activeIndex].cn : ''"
+                  class="form__field" placeholder="cn" name="cn" id='cn' required  />
+                <label required for="cn" class="form__label">Кадастровый номер</label>
+              </div>
+              <div class="form__group field">
+                <input v-model="ordering.name" type="input" class="form__field" placeholder="ФИО" name="ФИО" id='name'
+                  required />
+                <label for="name" class="form__label">ФИО</label>
+              </div>
+              <div class="form__group field">
+                <input v-model="ordering.email" type="email" class="form__field" placeholder="email" name="email"
+                  id='email' required />
+                <label required for="email" class="form__label">Почта</label>
+              </div>
+              <div class="form__group field">
+                <input v-model="ordering.phone" type="input" class="form__field" placeholder="phone" name="phone"
+                  id='phone' required />
+                <label  for="phone" class="form__label">Номер телефона</label>
+              </div>
+            </form>
+            <div>
+              <div class="egrnTypeContainer">
+                <div class="egrnTypeItem"><input v-model="ordering.checkedOrdering" type="checkbox" value="XZP"
+                    name="Названия" id="XZP"><label class="egrnTypeLabel" for="XZP"><span>Названия</span><span class="circle-icon-container"><i class="material-icons circle-icon">info</i>от 5 мин.</span></label></div>
+                <div class="egrnTypeItem"><input v-model="ordering.checkedOrdering" type="checkbox" value="SOPP"
+                    name="Основные характеристики и права" id="SOPP">
+                  <label class="egrnTypeLabel" for="SOPP"><span>Основные характеристики и права</span><span class="circle-icon-container"><i class="material-icons circle-icon">info</i>от 5 мин.</span></label></div>
+                <div class="egrnTypeItem"><input v-model="ordering.checkedOrdering" type="checkbox" value="PRC"
+                    name="Переход прав" id="PRC"><label class="egrnTypeLabel" for="PRC"><span>Переход
+                      прав</span><span class="circle-icon-container"><i class="material-icons circle-icon">info</i>от 5 мин.</span></label></div>
+                <div class="warning-container"><i class="material-icons circle-icon">info</i><span>- возможна задержка при формировании выписки Росеестром</span></div>
+              </div>
+            </div>
+          </div>
+          <p class="egrnTypeFooter">
+            <button @click="ordering.response = {}" class="uk-button uk-button-default uk-modal-close" type="button">Отмена</button>
+            <button @click="sendPayingData" class="uk-button uk-button-primary" type="button">Оформить заказ</button>
+          </p>
+        </div>
+     
+      </div>
     </div>
-    <div id="map"></div>
+  </div>
+  <div id="map"></div>
 </body>
 
 </html>

@@ -455,6 +455,10 @@ body,
   color: #F44336;
 }
 
+.leaflet-bar a {
+  background-position: 0% 0%;
+}
+
 .egrnTypeFooter {
   display: -webkit-box;
   display: -ms-flexbox;

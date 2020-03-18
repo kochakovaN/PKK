@@ -334,7 +334,20 @@
           </li>
           <div v-if="searchResult[1] !== undefined && searchResult[5] !== undefined">
             <div v-if="searchResult[1].address === undefined && searchResult[5].address === undefined">
-              Ничего не найдено
+              <div class="map-data">
+                <p class="error-text text-alert">Объект по этим данным не найден</p>
+                <p class="error-text">
+                  На карте показываются <strong>только</strong> участки, для которых сделано межевание (т.е.&nbsp;измерены точные координаты углов).</p>
+                <p class="error-text">
+                  Поэтому возможны <strong>4 причины</strong>, по которым участка на карте нет
+                </p>
+                <ol class="error-list">
+                  <li class="list-item">межевание не делалось вообще</li>
+                  <li class="list-item">межевание сделано давно (до 2006 года)</li>
+                  <li class="list-item">межевание сделано недавно (1-2 месяца назад)</li>
+                  <li class="list-item">технические ошибки кадастровой карты</li>
+                </ol>
+            </div>
             </div>
           </div>
         </ul>
